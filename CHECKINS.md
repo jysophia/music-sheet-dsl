@@ -1,3 +1,79 @@
+**Group 16 Project 1 Check-in 2A**\
+_Modular design for the software system: what is the input, output of each component? Who is responsible for each component? Do you want to be jointly responsible for some components?_
+
+Modules:
+1. Program Inputs: (Sophia, Taylor, Jeffrey)\
+.txt file (input string)\
+Made up of:\
+a. Note: key, beat, pitch\
+b. float (in 0.5s): to change beat, or add +/- to change pitch
+etc.
+
+
+2. Tokenizer: (Sophia, Taylor, Jeffrey)\
+Input: input string\
+Output: list of tokens
+3. Parser: (Sophia, Taylor, Jeffrey)\
+Input: List<Token>\
+Output: Parse Tree
+4. AST Converter (Taylor, Dave)\
+Input: Parse Tree\
+Output: Abstract syntax tree
+5. Evaluator (backend)  (Will, Dave)\
+Generate sheet music
+
+_What is the data at each interface point? Are there invariants over the data other than the class structure?_
+
+Data and Invariants:\
+1. The data at each interface point are the notes themselves\
+2. Invariants: notes cannot be null
+
+_How will you be able to build component X independently? Can you write tests for component X independently of its dependent components?_
+
+Early in the week of check-in 3, we will define the basic outline for the data structures. Since we will have these defined early on in our roadmap, this will allow us to work on the modules independently. We can write tests for the respective components that we are responsible for using the black box testing method.
+
+_Who will be responsible for writing which tests, and when (will the same people write the tests as the code)?_
+
+The same people will write the tests for the components they are responsible for.
+
+_Are there design or other project tasks (possibly including team management), other than these components, that need to be assigned/completed?_
+
+We will assign these tasks as needs vary. At this point, we are not fully certain of the workload of each component. Other project tasks include: weekly milestones, first user study, second user study, and the final video.
+
+_Roadmap/timeline(s) for what should be done when, and how you will synchronise/check-in with each other to make sure progress is on-track. Talk clearly with your team members about your expectations for communication and progress, and what you will do as a team if someone falls behind._
+
+Check-in 3 (Feb. 2):\
+Figure out what an AST actually is and how it works\
+User study 1\
+Use feedback to iterate on grammar rules\
+Test framework implemented\
+Write stubs for data structures used between modules (mainly parse tree, AST, and output).
+
+Feb. 5:\
+Code look finalized (grammar rules not fully implemented in ANTLR)\
+Have MVP done - simple implementation of note from input all the way to sheet music output
+
+Check-in 4 (Feb 9)\
+Status update on overall project\
+Refine timeline if necessary\
+Start planning for user study #1\
+Further implementation of grammar rules and features
+
+Check-in 5 (Feb 16)\
+Completed user study #1\
+Mostly completed end to end DSL
+
+Project 1 Deadline (Feb 26):\
+Completed video\
+Final improvements
+
+_Summary of progress so far._
+
+Defined roles and responsibilities.\
+Outlined roadmap and internal timeline for team.
+
+
+
 **Group 16 Project 1 Check-in 1**\
 Members: Jeffrey Chow, Dave Borrel, Taylor Foster, William Gumboc, Sophia Kim
 
