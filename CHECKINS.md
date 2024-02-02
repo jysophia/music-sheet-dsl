@@ -1,7 +1,7 @@
 **Group 16 Project 1 Check-in 3**
 
-Mockup Design (as used in User Study 1):\
-Note: please refer to img/UserStudy1.png for a screenshot of our mockup design, syntax, example code snippets, and example outputs.\
+Mockup Design (as used in User Study 1):
+
 ![](/Users/sophiakim/Documents/UBC/2023-2024/CPSC410/Group16Project1PyCharm/img/UserStudy1Mockup.png)
 
 Notes from User Study 1:\
