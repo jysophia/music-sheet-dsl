@@ -1,3 +1,43 @@
+**Group 16 Project 1 Check-in 3**
+
+Mockup Design (as used in User Study 1):
+
+![](/Users/sophiakim/Documents/UBC/2023-2024/CPSC410/Group16Project1PyCharm/img/UserStudy1Mockup.png)
+
+Notes from User Study 1:\
+**Findings**\
+The findings of the user study highlighted the following things in each category:
+
+Note declaration:
+1. Feedback: The number for the beat was ambiguous. \
+Solution: Each note’s length should be represented by the corresponding decimal number. For example, eighth note = 0.125, quarter note = 0.25, half note = 0.5. 
+2. Feedback: There should be something that indicates octave.\
+Solution: Additional syntax will be added to indicate this.
+3. Feedback: The syntax of declaring a single note feels cumbersome.\
+Solution: The declaration of a d sharp as a half note in default octave will be (d0.5#)_0
+
+Note mutation:\
+1. Feedback: The note += 1 makes it seem like you are incrementing the note length and not the pitch.\
+Solution: Do something like note.pitch += 1
+
+Chords:
+1. Feedback: Chords should have a limit.\
+Solution: Make max 4 notes.
+
+Groups:
+1. Feedback: The word “Group” is unintuitive.\
+Solution: Change to be “Sequence”
+
+Looping:
+1. Feedback: Looping is hard to read and understand.\
+Solution: Change word “loop” to be “repeat”
+2. Feedback: Mutation in loops is hard to understand.\
+Solution: TBD
+
+We are considering changing the syntax for the note as suggested into a simpler format. The feedback on the mutation and looping made a lot of sense as to why it would be unintuitive for a user using our DSL for the first time. We are thinking about how the user would use the loop (to be called "repeat") and mutate at the same time and design it so that it is intuitive for the user.
+
+So far, no specific changes to the timeline has been made. At this point it does not make sense to make new tests as we are having to go back to our parse tree and think about how to restructure our grammar rules again. But we can certainly start building out test cases as this gets finalized.
+
 **Group 16 Project 1 Check-in 2A**\
 _Modular design for the software system: what is the input, output of each component? Who is responsible for each component? Do you want to be jointly responsible for some components?_
 
