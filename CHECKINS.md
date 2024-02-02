@@ -2,7 +2,8 @@
 
 Mockup Design (as used in User Study 1):\
 Note: please refer to img/UserStudy1.png for a screenshot of our mockup design, syntax, example code snippets, and example outputs.\
-![alt text](/Users/sophiakim/Documents/UBC/2023-2024/CPSC410/Group16Project1PyCharm/img/UserStudy1Mockup.png)
+<img width="449" alt="Screenshot 2024-02-02 at 3 30 32 PM" src="https://media.github.students.cs.ubc.ca/user/15815/files/c4b89e53-c49f-4d01-977b-42a1c00cc64b">
+
 
 Notes from User Study 1:\
 **Findings**\
