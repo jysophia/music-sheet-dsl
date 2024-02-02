@@ -2,7 +2,7 @@
 
 Mockup Design (as used in User Study 1):\
 Note: please refer to img/UserStudy1.png for a screenshot of our mockup design, syntax, example code snippets, and example outputs.\
-![](/Users/sophiakim/Documents/UBC/2023-2024/CPSC410/Group16Project1PyCharm/img/UserStudy1Mockup.png)
+![plot](/Users/sophiakim/Documents/UBC/2023-2024/CPSC410/Group16Project1PyCharm/img/UserStudy1Mockup.png)
 
 Notes from User Study 1:\
 **Findings**\
@@ -16,7 +16,7 @@ Solution: Additional syntax will be added to indicate this.
 3. Feedback: The syntax of declaring a single note feels cumbersome.\
 Solution: The declaration of a d sharp as a half note in default octave will be (d0.5#)_0
 
-Note mutation:\
+Note mutation:
 1. Feedback: The note += 1 makes it seem like you are incrementing the note length and not the pitch.\
 Solution: Do something like note.pitch += 1
 
