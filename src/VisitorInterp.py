@@ -9,10 +9,10 @@ import subprocess
 import lilypond
 
 
-
 class VisitorInterp(MusicLanguageParserVisitor):
     def __init__(self):
         self.mp = MusicPrinter()
+
     def visitNote(self, ctx: MusicLanguageParser.NoteContext):
         key = ctx.KEY()
         beat = ctx.BEAT()

@@ -4,6 +4,7 @@ from parser.MusicLanguageLexer import MusicLanguageLexer
 from parser.MusicLanguageParser import MusicLanguageParser
 from VisitorInterp import VisitorInterp
 
+
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = MusicLanguageLexer(input_stream)
