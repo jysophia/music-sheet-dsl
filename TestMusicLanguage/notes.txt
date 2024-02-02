@@ -1,0 +1,2 @@
+Note testNote1 = note(a, 4, none)
+Note testNote2 = note(g, 2, none)
