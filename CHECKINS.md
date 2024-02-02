@@ -2,8 +2,7 @@
 
 Mockup Design (as used in User Study 1):\
 Note: please refer to img/UserStudy1.png for a screenshot of our mockup design, syntax, example code snippets, and example outputs.\
-<img width="449" alt="Screenshot 2024-02-02 at 3 30 32 PM" src="https://media.github.students.cs.ubc.ca/user/15815/files/c4b89e53-c49f-4d01-977b-42a1c00cc64b">
-
+<img width="1000" alt="UserStudy1" src="./img/UserStudy1Mockup.png">
 
 Notes from User Study 1:\
 **Findings**\
