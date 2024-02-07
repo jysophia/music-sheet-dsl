@@ -1,7 +1,7 @@
 lexer grammar MusicLanguageLexer;
 
 PROGRAM_START: 'Start' WS*;
-NOTE_START: 'ast.Note' WS* -> mode(NOTE_MODE);
+NOTE_START: 'Note' WS* -> mode(NOTE_MODE);
 
 // Line breaks are ignored during tokenization (note that this rule only applies in DEFAULT_MODE, not IDENT_MODE)
 WS : [\r\n\t ] -> channel(HIDDEN);
