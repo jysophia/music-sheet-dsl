@@ -22,9 +22,19 @@ public class MusicPrinter {
         }
         score.append("\n}");
 
-        File newFile = new File("score.ly");
+        File newFile = new File("./score.ly");
+
         try {
-            FileWriter writer = new FileWriter("score.ly");
+            // creates file if one does not exist already.
+            Boolean fileCreated = newFile.createNewFile();
+
+            if (fileCreated) {
+                System.out.println("New file created");
+            } else {
+                System.out.println("File already exists");
+            }
+
+            FileWriter writer = new FileWriter("./score.ly");
             writer.write(score.toString());
             writer.close();
         } catch (IOException e) {
