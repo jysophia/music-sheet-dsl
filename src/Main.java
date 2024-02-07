@@ -28,7 +28,7 @@ public class Main {
             System.out.println("syntax errors");
         } else {
             VisitorInterpreter vinterp = new VisitorInterpreter();
-            vinterp.visit(tree);
+            vinterp.visitProgram(tree);
         }
     }
 }
