@@ -27,11 +27,11 @@ public class MusicPrinter {
         File newFile = new File("./score.ly");
 
         try {
-            // creates file if one does not exist already.
+            // creates text_output if one does not exist already.
             Boolean fileCreated = newFile.createNewFile();
 
             if (fileCreated) {
-                System.out.println("New file created");
+                System.out.println("New text_output created");
             } else {
                 System.out.println("File already exists");
             }
