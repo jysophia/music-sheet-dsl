@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.MusicLanguageParser;
 import parser.MusicLanguageParserBaseVisitor;
 
+import java.util.ArrayList;
+
 // TODO: This `ast.Note` may need to change to `Node` when we implement the AST.
 public class VisitorInterpreter extends MusicLanguageParserBaseVisitor<Node> {
     private MusicPrinter mp;
@@ -29,6 +31,6 @@ public class VisitorInterpreter extends MusicLanguageParserBaseVisitor<Node> {
             this.visit(ctx.getChild(i));
         }
         this.mp.printNotes();
-        return new MusicSheet();
+        return new MusicSheet(new ArrayList<>());
     }
 }
