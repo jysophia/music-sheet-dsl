@@ -18,7 +18,7 @@ public class VisitorInterpreter extends MusicLanguageParserBaseVisitor<Node> {
         TerminalNode key = ctx.KEY();
         TerminalNode beat = ctx.BEAT();
         TerminalNode pitch = ctx.PITCH();
-        Note note = new Note(key, beat, pitch);
+        Note note = new Note(key.toString(), beat.toString(), pitch.toString());
         this.mp.addNote(note);
 
         return note;
