@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Sequence extends Node{
 
-    private ArrayList<Node> chordsAndNotes;
+    private final ArrayList<Node> chordsAndNotes;
 
     public Sequence(ArrayList<Node> chordsAndNotes) {
         this.chordsAndNotes = chordsAndNotes;

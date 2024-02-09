@@ -14,7 +14,8 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(MusicSheet m, PrintWriter writer) {
-        writer.println("{\n    \\clef bass\n    \\version \"2.25.11\"\n    ");
+//        writer.println("{\n    \\clef bass\n    \\version \"2.25.11\"\n    ");
+        writer.println("{\n    \\clef treble\n");
 
         for (Sequence seq : m.getSequences()) {
             seq.accept(this, writer);
@@ -27,6 +28,8 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
     public Void visit(Sequence s, PrintWriter writer) {
 
+        writer.print("    ");
+
         // This should only be Chord or Note
         for (Node n : s.getChordAndNoteSequence()) {
             n.accept(this, writer);
@@ -36,11 +39,18 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(Chord c, PrintWriter writer) {
+        writer.print("<");
+
+        for (Note n : c.getNotes()) {
+            n.accept(this, writer);
+        }
+
+        writer.print(">");
         return null;
     }
 
     public Void visit(Note n, PrintWriter writer) {
-        writer.println(n.getKey() + n.getPitch() + " ");
+        writer.print(n.getKey() + n.getPitch() + "' ");
         return null;
     }
 }

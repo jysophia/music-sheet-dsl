@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class Chord extends Node{
 
-    private ArrayList<Note> notes;
+    private final ArrayList<Note> notes;
 
     public Chord(ArrayList<Note> notes) {
         this.notes = notes;
+    }
+
+    public ArrayList<Note> getNotes() {
+        return this.notes;
     }
 
     @Override

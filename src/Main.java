@@ -53,7 +53,6 @@ public class Main {
             }
 
             Evaluator e = new Evaluator();
-            StringBuilder s = new StringBuilder();
             PrintWriter out = new PrintWriter(new FileWriter("./score.ly"));
 
             parsedSheet.accept(e, out);
