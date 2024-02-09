@@ -3,22 +3,34 @@ package ast;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Note extends Node{
-    private String key;
-    private String pitch;
-    private String beat;
+    private final String key;
+    private final String pitch;
+    private final String beat;
 
-    public Note(String key, String pitch, String beat) {
+    public Note(String key, String beat, String pitch) {
         this.key = key;
         this.pitch = pitch;
         this.beat = beat;
     }
 
+    public String getKey() {
+        return this.key;
+    }
+
+    public String getPitch() {
+        return this.pitch;
+    }
+
+    public String getBeat() {
+        return this.beat;
+    }
+
+    // This needs to be deleted later
     public String printNote() {
         return key + pitch;
     }
 
-    @Override
-    public <C,T> T accept(C context, MusicSheetVisitor<C,T> v) {
-        return v.visit(context, this);
+    public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
+        return v.visit(this, t);
     }
 }

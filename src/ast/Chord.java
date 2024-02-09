@@ -11,7 +11,7 @@ public class Chord extends Node{
     }
 
     @Override
-    public <C,T> T accept(C context, MusicSheetVisitor<C,T> v) {
-        return v.visit(context, this);
+    public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
+        return v.visit(this, t);
     }
 }

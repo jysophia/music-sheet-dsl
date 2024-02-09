@@ -12,8 +12,11 @@ public class MusicSheet extends Node{
         this.sequences = sequences;
     }
 
-    @Override
-    public <C,T> T accept(C context, MusicSheetVisitor<C,T> v) {
-        return v.visit(context, this);
+    public ArrayList<Sequence> getSequences() {
+        return this.sequences;
+    }
+
+    public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
+        return v.visit(this, t);
     }
 }

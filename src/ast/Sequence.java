@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 public class Sequence extends Node{
 
-    private ArrayList<Object> chordsAndNotes;
+    private ArrayList<Node> chordsAndNotes;
 
-    public Sequence(ArrayList<Object> chordsAndNotes) {
+    public Sequence(ArrayList<Node> chordsAndNotes) {
         this.chordsAndNotes = chordsAndNotes;
     }
 
-    @Override
-    public <C,T> T accept(C context, MusicSheetVisitor<C,T> v) {
-        return v.visit(context, this);
+    public ArrayList<Node> getChordAndNoteSequence() {
+        return this.chordsAndNotes;
+    }
+
+    public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
+        return v.visit(this, t);
     }
 }

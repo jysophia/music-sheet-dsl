@@ -2,29 +2,45 @@ package ast.evaluator;
 
 import ast.*;
 
-public class Evaluator implements MusicSheetVisitor<StringBuilder, Integer> {
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
     public Evaluator() {
 
     }
 
-    @Override
-    public Integer visit(StringBuilder errors, MusicSheet m) {
-        return 0;
+    public Void visit(MusicSheet m, PrintWriter writer) {
+        writer.println("{\n    \\clef bass\n    \\version \"2.25.11\"\n    ");
+
+        for (Sequence seq : m.getSequences()) {
+            seq.accept(this, writer);
+        }
+
+        writer.println("\n}");
+
+        return null;
     }
 
-    @Override
-    public Integer visit(StringBuilder errors, Sequence s) {
-        return 0;
+    public Void visit(Sequence s, PrintWriter writer) {
+
+        // This should only be Chord or Note
+        for (Node n : s.getChordAndNoteSequence()) {
+            n.accept(this, writer);
+        }
+
+        return null;
     }
 
-    @Override
-    public Integer visit(StringBuilder errors, Chord c) {
-        return 0;
+    public Void visit(Chord c, PrintWriter writer) {
+        return null;
     }
 
-    @Override
-    public Integer visit(StringBuilder errors, Note n) {
-        return 0;
+    public Void visit(Note n, PrintWriter writer) {
+        writer.println(n.getKey() + n.getPitch() + " ");
+        return null;
     }
 }
