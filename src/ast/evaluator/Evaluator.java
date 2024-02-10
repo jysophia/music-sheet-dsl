@@ -2,9 +2,6 @@ package ast.evaluator;
 
 import ast.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
@@ -14,7 +11,6 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(MusicSheet m, PrintWriter writer) {
-//        writer.println("{\n    \\clef bass\n    \\version \"2.25.11\"\n    ");
         writer.println("{\n    \\clef treble\n");
 
         for (Sequence seq : m.getSequences()) {
@@ -33,6 +29,12 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         // This should only be Chord or Note
         for (Node n : s.getChordAndNoteSequence()) {
             n.accept(this, writer);
+
+            if (n instanceof Note) {
+                writer.print(((Note) n).getBeat());
+            } else if (n instanceof Chord) {
+                writer.print(((Chord) n).getBeat());
+            }
         }
 
         return null;
@@ -50,7 +52,14 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(Note n, PrintWriter writer) {
-        writer.print(n.getKey() + n.getPitch() + "' ");
+        String pitch = n.getPitch();
+        String mod = "";
+        if (pitch.equals("flat")) {
+            mod = "es";
+        } else if (pitch.equals("sharp")) {
+            mod = "is";
+        }
+        writer.print(n.getKey() + mod + "'" + " ");
         return null;
     }
 }
