@@ -1,3 +1,21 @@
+**Group 16 Project 1 Check-in 4**
+
+Status of implementation:\
+Over the last couple weeks, we were able to develop a very small minimal viable product on Python to test that our DSL could work in combination with Lilypond. This week, we have been in the process of implementing the rest of the program but had to switch to Java in between due to a change of the team's preference based on what we knew about the language. So far, we've done the evaluator portion of the program and are working on testing the language tokenizer and parser. So far, the tests for some parts of the lexer are working and some are not - specifically, we are able to pass the tokenizer test for Note, but we are not able to do the same for Chord and Sequence. Extra tests to be written include tests for the evaluator, which is also in progress, and will be able to use once the lexer and parser structure is working.
+
+Plans for final user study:\
+No major changes will be made to the final user study compared to our first one, except for different users. We plan to recruit users who have both a musical background and knowledge in programming to try out our DSL and see how the feedback changes.
+
+Planned timeline for the remaining days:\
+We hope to finish implementing the conversion from the tokenizer and parser to the AST so that we can connect it to the evaluator and test it for end-to-end testing. We are still on track with our timeline, so no changes will be made. We are still aiming to have mostly completed the end-to-end DSL by check-in 5. This should give us enough time to test for error-handling, fixing any bugs, and making further improvements wherever necessary.
+
+Additional updates:\
+As per our discussion during our TA check-in, here are some additional notes regarding our initial user study:
+- 2 users were recruited, one with minimal musical knowledge, one with sufficient musical knowledge
+- We showed users the mockup design (as shown in the image below) and asked them to read it out loud and try to come up with their own snippet of code
+- As the users asked questions, some were answered, and some were considered feedback, which were included in the notes for Check-in 3
+- We have implemented their feedback on a more intuitive syntax for building the notes and chords, and are still discussing ways to improve our "repeat" function (previously called "loop")
+
 **Group 16 Project 1 Check-in 3**
 
 Mockup Design (as used in User Study 1):\
