@@ -1,10 +1,12 @@
 package ast;
 
-public interface MusicSheetVisitor<C, T> {
+public interface MusicSheetVisitor<T, U> {
 
-    T visit(C context, MusicSheet p);
+    U visit(MusicSheet p, T t);
 
-    T visit(C context, Note n);
+    U visit(Note n, T t);
 
-    T visit(C context, Sequence s);
+    U visit(Sequence s, T t);
+
+    U visit(Chord c, T t);
 }
