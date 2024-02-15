@@ -12,14 +12,14 @@ NEWLINE : [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DI
 
 // For non DECLARATION/DISPLAY, we want to move it out of NAME_MODE.
 EQUALS: '=' -> mode(SET_VAR_MODE);
-DOT: '.' -> mode(SET_PROPERTY_MODE);
+//DOT: '.' -> mode(SET_PROPERTY_MODE);
 
 mode SET_VAR_MODE;
 NOTE: '$' WS* -> mode(NOTE_MODE);
 CHORD: 'chord(' WS* -> mode(CHORD_MODE);
 SEQUENCE: 'sequence(' WS* -> mode(SEQUENCE_MODE);
 
-mode SET_PROPERTY_MODE;
+//mode SET_PROPERTY_MODE;
 //PROPERTY: 'key ='|'beat ='|'pitch ='|'octave =' WS* -> mode(NOTE_MODE);
 
 mode NOTE_MODE;
