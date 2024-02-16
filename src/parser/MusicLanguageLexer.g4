@@ -6,11 +6,12 @@ DISPLAY: 'Display' WS* -> mode(NAME_MODE);
 MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
 
 WS : [\t ] -> channel(HIDDEN);
+STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
 COMMA: ',';
 
 mode NAME_MODE;
 NAME: ~[[|\]\r\n,.=\t ()]+ WS*;
-NEWLINE : [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DISPLAY
+NAME_RETURN: [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DISPLAY
 
 // For non DECLARATION/DISPLAY, we want to move it out of NAME_MODE.
 EQUALS: '=' WS*-> mode(SET_VAR_MODE);
@@ -42,7 +43,7 @@ KEY: ('C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
 BEAT: ('0.125' | '0.25' | '0.5' | '1.0') WS*;
 PITCH: '#' | 'b' WS*;
 OCTAVE: '_' ('-1' | '0' | '1') WS*;
-RETURN: NEWLINE -> mode(DEFAULT_MODE);
+NOTE_RETURN: [\r\n]+ -> mode(DEFAULT_MODE);
 
 mode CHORD_MODE;
 CHORD_ENTRY: NAME;

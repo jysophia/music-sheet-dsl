@@ -32,7 +32,18 @@ public class MusicLanguageParserTest {
     }
     @Test
     public void chordInitialTest() throws IOException {
-        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/chords.txt"));
+        String input = """
+                Note n1
+                Note n2
+                Note n3
+
+                Set n1 = $D#1.0_0
+                Set n2 = $G1.0_0
+                Set n3 = $B1.0_0
+
+                Chord c1
+                Set c1 = chord(n1, n2, n3)""";
+        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromString(input));
 
         for (Token token : lexer.getAllTokens()) {
             System.out.println(token);
@@ -43,7 +54,7 @@ public class MusicLanguageParserTest {
         MusicLanguageParser parser = new MusicLanguageParser(tokens);
 
         MusicLanguageParser.ProgramContext tree = parser.program();
-        MusicLanguageParser.ChordContext context = chordExample();
+        MusicLanguageParser.ChordContext context = parser.chord();
 //        assertEquals(5, context.children.size());
 
 //        assertInstanceOf(MusicLanguageParser.ChordContext.class, context.children.get(1));
