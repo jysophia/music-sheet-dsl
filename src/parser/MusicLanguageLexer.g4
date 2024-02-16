@@ -9,11 +9,11 @@ WS : [\t ] -> channel(HIDDEN);
 COMMA: ',' WS* -> channel(HIDDEN);
 
 mode NAME_MODE;
-NAME: ~[[|\]\r\n,.=\t ()]+;
+NAME: ~[[|\]\r\n,.=\t ()]+ WS*;
 NEWLINE : [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DISPLAY
 
 // For non DECLARATION/DISPLAY, we want to move it out of NAME_MODE.
-EQUALS: '=' -> mode(SET_VAR_MODE);
+EQUALS: '=' WS*-> mode(SET_VAR_MODE);
 DOT: '.' -> mode(SET_PROPERTY_MODE);
 
 mode SET_VAR_MODE;
