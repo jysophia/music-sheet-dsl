@@ -6,7 +6,7 @@ DISPLAY: 'Display' WS* -> mode(NAME_MODE);
 MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
 
 WS : [\t ] -> channel(HIDDEN);
-COMMA: ',' WS* -> channel(HIDDEN);
+COMMA: ',';
 
 mode NAME_MODE;
 NAME: ~[[|\]\r\n,.=\t ()]+ WS*;
@@ -18,7 +18,7 @@ DOT: '.' -> mode(SET_PROPERTY_MODE);
 
 mode SET_VAR_MODE;
 NOTE: '$' WS* -> mode(NOTE_MODE);
-CHORD: 'chord(' WS* -> mode(CHORD_MODE);
+CHORD: 'chord' WS* -> mode(CHORD_MODE);
 SEQUENCE: 'sequence(' WS* -> mode(SEQUENCE_MODE);
 
 mode SET_PROPERTY_MODE;
@@ -35,8 +35,10 @@ OCTAVE: '_' ('-1' | '0' | '1') WS*;
 RETURN: NEWLINE -> mode(DEFAULT_MODE);
 
 mode CHORD_MODE;
-CHORD_ENTRY: NAME WS* COMMA+ WS*;
-CHORD_END: ')' WS* -> mode(DEFAULT_MODE);
+CHORD_START: '(' -> channel(HIDDEN);
+CHORD_ENTRY: NAME;
+CHORD_END: ')' WS* -> channel(HIDDEN), mode(DEFAULT_MODE);
+CHORD_SEPARATOR: WS* COMMA WS* -> channel(HIDDEN);
 
 mode SEQUENCE_MODE;
 SEQUENCE_ENTRY: ITEM+ WS* COMMA+ WS*;
