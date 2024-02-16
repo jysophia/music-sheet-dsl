@@ -262,7 +262,7 @@ public class MusicLanguageLexerTest {
     @Test
     void testLexerAddStatementSuccess() {
         // Setup
-        String testInput = "add n1.key = 1";
+        String testInput = "Add n1.key 1";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(4, tokens.size());
@@ -271,7 +271,7 @@ public class MusicLanguageLexerTest {
     @Test
     void testLexerSubStatementSuccess() {
         // Setup
-        String testInput = "sub n1.key = 1";
+        String testInput = "Sub n1.key 1";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(4, tokens.size());
@@ -281,7 +281,7 @@ public class MusicLanguageLexerTest {
     @Test
     void testLexerDisplayStatementSuccess() {
         // Setup
-        String testInput = "display n1";
+        String testInput = "Display s1";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(2, tokens.size());

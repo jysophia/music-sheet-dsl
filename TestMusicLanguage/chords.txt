@@ -1,0 +1,10 @@
+Note n1
+Note n2
+Note n3
+
+Set n1 = $D#1.0_0
+Set n2 = $G1.0_0
+Set n3 = $B1.0_0
+
+Chord c1
+Set c1 = chord(n1, n2, n3)

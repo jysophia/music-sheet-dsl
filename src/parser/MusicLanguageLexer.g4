@@ -17,8 +17,8 @@ EQUALS: '=' WS*-> mode(SET_VAR_MODE);
 DOT: '.' -> mode(SET_PROPERTY_MODE);
 
 mode SET_VAR_MODE;
-NOTE: '$' WS* -> mode(NOTE_MODE);
-CHORD: 'chord' WS* -> mode(CHORD_MODE);
+NOTE: '$' -> mode(NOTE_MODE);
+CHORD: 'chord(' -> mode(CHORD_MODE);
 SEQUENCE: 'sequence(' WS* -> mode(SEQUENCE_MODE);
 
 mode SET_PROPERTY_MODE;
@@ -26,6 +26,16 @@ SET_KEY: 'key =' WS* -> mode(NOTE_MODE);
 SET_BEAT: 'beat =' WS* -> mode(NOTE_MODE);
 SET_PITCH: 'pitch =' WS* -> mode(NOTE_MODE);
 SET_OCTAVE: 'octave =' WS* -> mode(NOTE_MODE);
+MUT_KEY: 'key' WS* -> mode(MUT_KEY_MODE);
+MUT_BEAT: 'beat' WS* -> mode(MUT_BEAT_MODE);
+
+mode MUT_KEY_MODE;
+MUT_KEY_NUMBER: ('0.5' | '1.0' | '1' | '1.5' | '2.0' | '2' | '2.5' | '3.0' | '3' | '3.5' |
+                '4.0' | '4' | '4.5' | '5.0' | '5' | '5.5' | '6.0' | '6' | '6.5' | '7.0' |
+                '7' | '7.5' | '8.0' | '8');
+
+mode MUT_BEAT_MODE;
+MUT_BEAT_NUMBER: ('1' | '2' | '3');
 
 mode NOTE_MODE;
 KEY: ('C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
@@ -35,7 +45,6 @@ OCTAVE: '_' ('-1' | '0' | '1') WS*;
 RETURN: NEWLINE -> mode(DEFAULT_MODE);
 
 mode CHORD_MODE;
-CHORD_START: '(' -> channel(HIDDEN);
 CHORD_ENTRY: NAME;
 CHORD_END: ')' WS* -> channel(HIDDEN), mode(DEFAULT_MODE);
 CHORD_SEPARATOR: WS* COMMA WS* -> channel(HIDDEN);

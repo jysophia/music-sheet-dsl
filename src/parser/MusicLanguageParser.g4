@@ -10,13 +10,16 @@ options { tokenVocab=MusicLanguageLexer; }
 //item: TEXT;
 
 program: statement* EOF;
-statement: declare | set | display;
+statement: declare | set | display | mutate;
 declare: DECLARATION varname;
-set: SET varname DOT? PROPERTY? EQUALS note | chord | sequence | value;
-note: NOTE KEY BEAT PITCH OCTAVE;
-chord: CHORD varname CHORD_END;
-sequence: SEQUENCE SEQUENCE_ENTRY SEQUENCE_END;
-value: KEY | BEAT | PITCH | OCTAVE;
+set: SET varname (DOT property)? EQUALS (note | chord | sequence | note_property);
 display: DISPLAY varname;
+mutate: MUTATE varname DOT (KEY | BEAT) MUT_KEY_NUMBER;
+
+note: NOTE KEY BEAT PITCH OCTAVE;
+chord: CHORD varname varname+ CHORD_END;
+sequence: SEQUENCE SEQUENCE_ENTRY SEQUENCE_END;
+note_property: KEY | BEAT | PITCH | OCTAVE;
+property: SET_KEY | SET_BEAT | SET_PITCH | SET_OCTAVE;
 
 varname: NAME;
