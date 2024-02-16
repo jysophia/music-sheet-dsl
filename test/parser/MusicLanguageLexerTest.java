@@ -2,6 +2,7 @@ package parser;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,62 +19,122 @@ public class MusicLanguageLexerTest {
     }
 
     @Test
-    void testLexerInputNoteSuccess() {
+    void testLexerDeclareNoteSuccess() {
         // Setup
-        String testInput = "testNote = $d1.0#_0\n";
+        String testInput = "Note testNote\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(7, tokens.size());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.getFirst().getType());
-        assertEquals(MusicLanguageLexer.EQ, tokens.get(1).getType());
-        assertEquals(MusicLanguageLexer.NOTE, tokens.get(2).getType());
-        assertEquals(MusicLanguageLexer.KEY, tokens.get(3).getType());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(4).getType());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(6).getType());
+        assertEquals(3, tokens.size());
+        assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
+        assertEquals("Note", tokens.getFirst().getText());
+        assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
+        assertEquals("testNote", tokens.get(1).getText());
+        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
     }
 
     @Test
-    void testLexerInputNoteHigherOctaveSuccess() {
-        String testInput = "testNote = $d1.0#_1\n";
+    void testLexerDeclareChordSuccess() {
+        // Setup
+        String testInput = "Chord testChord\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.getLast().getType());
-        assertEquals("_1", tokens.getLast().toString());
+        assertEquals(3, tokens.size());
+        assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
+        assertEquals("Chord", tokens.getFirst().getText());
+        assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
+        assertEquals("testChord", tokens.get(1).getText());
+        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
     }
 
     @Test
-    void testLexerInputNoteLowerOctaveSuccess() {
-        String testInput = "testNote = $d1.0#_-1\n";
+    void testLexerDeclareSequenceSuccess() {
+        // Setup
+        String testInput = "Sequence testSequence\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.getLast().getType());
-        assertEquals("_-1", tokens.getLast().toString());
+        assertEquals(3, tokens.size());
+        assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
+        assertEquals("Sequence", tokens.getFirst().getText());
+        assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
+        assertEquals("testSequence", tokens.get(1).getText());
+        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
     }
 
     @Test
-    void testLexerInputNoteInvalidKeyFail() {
-        String testInput = "testNote = $x1.0#_0\n";
+    void testLexerSetNoteAllPropertiesSuccess() {
+        String testInput = "Set testNote = $C1.0#_0";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertNotEquals(MusicLanguageLexer.KEY, tokens.get(4).getType());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.get(4).getType());
-        assertEquals("x", tokens.get(4).toString());
+        assertEquals(8, tokens.size());
+        assertEquals(MusicLanguageLexer.SET, tokens.getFirst().getType());
+        assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
+        assertEquals("testNote", tokens.get(1).getText());
+        assertEquals(MusicLanguageLexer.EQUALS, tokens.get(2).getType());
+        assertEquals(MusicLanguageLexer.NOTE, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.KEY, tokens.get(4).getType());
+        assertEquals("C", tokens.get(4).getText());
+        assertEquals(MusicLanguageLexer.BEAT, tokens.get(5).getType());
+        assertEquals("1.0", tokens.get(5).getText());
+        assertEquals(MusicLanguageLexer.PITCH, tokens.get(6).getType());
+        assertEquals("#", tokens.get(6).getText());
+        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(7).getType());
+        assertEquals("_0", tokens.get(7).getText());
     }
 
     @Test
-    void testLexerInputNoteInvalidBeatFail() {
-        String testInput = "testNote = $x2.0#_0\n";
+    void testLexerSetNoteAllPropertiesWithNewLineSuccess() {
+        String testInput = "Set testNote = $C1.0#_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertNotEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.get(5).getType());
-        assertEquals("2.0", tokens.get(5).toString());
+        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(7).getType());
+        assertEquals("_0", tokens.get(7).getText());
+        assertEquals(MusicLanguageLexer.RETURN, tokens.getLast().getType());
     }
 
     @Test
-    void testLexerInputNoteNoPitchSuccess() {
-        String testInput = "testNote = $x1.0_0\n";
+    void testLexerSetNoteAllPropertiesHigherOctaveSuccess() {
+        String testInput = "Set testNote = $C1.0#_1\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(tokens.size() - 2).getType());
+        assertEquals("_1", tokens.get(tokens.size() - 2).getText());
+    }
+
+    @Test
+    void testLexerSetNoteAllPropertiesLowerOctaveSuccess() {
+        String testInput = "Set testNote = $C1.0#_-1\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(tokens.size() - 2).getType());
+        assertEquals("_-1", tokens.get(tokens.size() - 2).getText());
+    }
+
+//
+    @Test
+    void testLexerSetNoteAllPropertiesInvalidKeyFail() {
+        String testInput = "Set testNote = $c1.0#_0\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        // TODO: How to test for an expected token recognition error.
+        tokens.forEach(token -> {
+            assertNotEquals(MusicLanguageLexer.KEY, token.getType());
+        });
+    }
+
+    @Test
+    void testLexerSetNoteAllPropertiesInvalidBeatFail() {
+        String testInput = "Set testNote = $C2.0#_0\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        // TODO: How to test for an expected token recognition error.
+        tokens.forEach(token -> {
+            assertNotEquals(MusicLanguageLexer.BEAT, token.getType());
+        });
+    }
+
+    @Test
+    void testLexerSetNoteAllPropertiesNoPitchSuccess() {
+        String testInput = "Set testNote = $C1.0_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         tokens.forEach(token -> {
@@ -82,146 +143,147 @@ public class MusicLanguageLexerTest {
     }
 
     @Test
-    void testLexerInputNoteInvalidPitchFail() {
-        String testInput = "testNote = $x1.0@_0\n";
+    void testLexerSetNoteAllPropertiesInvalidPitchFail() {
+        String testInput = "Set testNote = $C1.0@_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertNotEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.get(5).getType());
-        assertEquals("@", tokens.get(5).toString());
+        // TODO: How to test for an expected token recognition error.
+        tokens.forEach(token -> {
+            assertNotEquals(MusicLanguageLexer.PITCH, token.getType());
+        });
     }
 
     @Test
-    void testLexerInputNoteInvalidOctaveFail() {
-        String testInput = "testNote = $x1.0#_2\n";
+    void testLexerSetNoteAllPropertiesInvalidOctaveFail() {
+        String testInput = "Set testNote = $C1.0#_2\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertNotEquals(MusicLanguageLexer.OCTAVE, tokens.getLast().getType());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.getLast().getType());
-        assertEquals("2", tokens.get(5).toString());
+        // TODO: How to test for an expected token recognition error.
+        tokens.forEach(token -> {
+            assertNotEquals(MusicLanguageLexer.OCTAVE, token.getType());
+        });
     }
 
     @Test
-    void testLexerInputChordSuccess() {
+    void testLexerSetNoteKeySuccess() {
+        String testInput = "Set testNote.key = C";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET_KEY, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.KEY, tokens.getLast().getType());
+    }
+
+    @Test
+    void testLexerSetNoteBeatSuccess() {
+        String testInput = "Set testNote.beat = 0.25";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET_BEAT, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.BEAT, tokens.getLast().getType());
+    }
+
+    @Test
+    void testLexerSetNotePitchSuccess() {
+        String testInput = "Set testNote.pitch = b";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET_PITCH, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.PITCH, tokens.getLast().getType());
+    }
+
+    @Test
+    void testLexerSetNoteOctaveSuccess() {
+        String testInput = "Set testNote.octave = _-1";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET_OCTAVE, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.OCTAVE, tokens.getLast().getType());
+    }
+
+    @Test
+    void testLexerSetChordSuccess() {
         // Setup
-        String testInput = "testChord = chord($c0.25#_0, $e0.25_0, $g0.25_0)\n";
+        String testInput = "Set testChord = chord(note1, note2)\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(21, tokens.size());
-        assertEquals(MusicLanguageLexer.TEXT, tokens.getFirst().getType());
+        assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET, tokens.getFirst().getType());
+        assertEquals(MusicLanguageLexer.EQUALS, tokens.get(2).getType());
         assertEquals(MusicLanguageLexer.CHORD, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.CHORD_ENTRY, tokens.get(4).getType());
-        assertEquals(MusicLanguageLexer.CHORD_NOTE, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.C_KEY, tokens.get(6).getType());
-        assertEquals(MusicLanguageLexer.C_BEAT, tokens.get(7).getType());
-        assertEquals(MusicLanguageLexer.C_PITCH, tokens.get(8).getType());
-        assertEquals(MusicLanguageLexer.C_OCTAVE, tokens.get(9).getType());
-    }
-
-    @Test
-    void testLexerInputChordTooManyNotesFail() {
-        // Setup
-        String testInput = "testChord = chord($a0.25#_0, $b0.25_0, $c0.25_0, $d0.25_0, $e0.25_0)\n";
-        List<? extends Token> tokens = testTokenization(testInput);
-
-        // Checks that none of the tokens are chords.
-        tokens.forEach(token -> {
-            assertNotEquals(MusicLanguageLexer.CHORD, token.getType());
-        });
+        assertEquals(MusicLanguageLexer.CHORD_ENTRY, tokens.get(5).getType());
     }
 
     @Test
     void testLexerInputChordMissingParenthesesNotesFail() {
         // Setup
-        String testInput = "testChord = chord $a0.25#_0, $b0.25_0, $c0.25_0, $d0.25_0\n";
+        String testInput = "Set testChord = chord note1, note2\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        // Checks that none of the tokens are chords.
+        //TODO: currently this works because parentheses are separate tokens and hidden.
+        fail("Confirm if this should work or not");
         tokens.forEach(token -> {
             assertNotEquals(MusicLanguageLexer.CHORD, token.getType());
         });
     }
 
-    @Test
-    void testLexerInputChordMultipleParenthesesNotesFail() {
-        fail("Not Implemented Yet");
-    }
 
     @Test
-    void testLexerInputSequenceSuccess() {
+    void testLexerSetSequenceSuccess() {
         // Setup
-        String testInput = "testNote = $d1.0#_0\n" +
-                "testChord = chord($c0.25#_0, $e0.25_0, $g0.25_0)\n" +
-                "testSequence = sequence(testNote, testChord)";
-        List<? extends Token> tokens = testTokenization(testInput);
-
-        fail("Not Implemented Yet");
-    }
-
-    // TODO: add some incorrect sequences.
-    @Test
-    void testLexerInputWhitespaceAgnosticSuccess() {
-        // Setup
-        String testInput = "testNote=$d1.0#_0testNote2=$e1.0#_0";
-        List<? extends Token> tokens = testTokenization(testInput);
-
-        assertEquals(14, tokens.size());
-
-        assertEquals(MusicLanguageLexer.TEXT, tokens.getFirst().getType());
-        assertEquals(MusicLanguageLexer.EQ, tokens.get(1).getType());
-        assertEquals(MusicLanguageLexer.NOTE, tokens.get(2).getType());
-        assertEquals(MusicLanguageLexer.KEY, tokens.get(3).getType());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(4).getType());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(6).getType());
-
-        assertEquals(MusicLanguageLexer.TEXT, tokens.get(7).getType());
-        assertEquals(MusicLanguageLexer.EQ, tokens.get(8).getType());
-        assertEquals(MusicLanguageLexer.NOTE, tokens.get(9).getType());
-        assertEquals(MusicLanguageLexer.KEY, tokens.get(10).getType());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(11).getType());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(12).getType());
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(13).getType());
-    }
-
-    @Test
-    void testLexerInputNewlineAgnosticSuccess() {
-        // Setup
-        String testInput = "testNote\n" +
-                "=\n" +
-                "$d1.0#_0\n\n\n" +
-                "testNote2 = $e1.0\n#_0";
-        List<? extends Token> tokens = testTokenization(testInput);
-
-        assertEquals(14, tokens.size());
-
-        assertEquals(MusicLanguageLexer.TEXT, tokens.getFirst().getType());
-        assertEquals(MusicLanguageLexer.EQ, tokens.get(1).getType());
-        assertEquals(MusicLanguageLexer.NOTE, tokens.get(2).getType());
-        assertEquals(MusicLanguageLexer.KEY, tokens.get(3).getType());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(4).getType());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(6).getType());
-
-        assertEquals(MusicLanguageLexer.TEXT, tokens.get(7).getType());
-        assertEquals(MusicLanguageLexer.EQ, tokens.get(8).getType());
-        assertEquals(MusicLanguageLexer.NOTE, tokens.get(9).getType());
-        assertEquals(MusicLanguageLexer.KEY, tokens.get(10).getType());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(11).getType());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(12).getType());
-        assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(13).getType());
-    }
-
-    @Test
-    void testLexerInputMissingEqualsFail() {
-        // Setup
-        String testInput = "testNote $d1.0#_0";
+        String testInput = "Set testSequence = sequence(testNote, testChord)";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(6, tokens.size());
+        assertEquals(MusicLanguageLexer.SET, tokens.getFirst().getType());
+        assertEquals(MusicLanguageLexer.EQUALS, tokens.get(2).getType());
+        assertEquals(MusicLanguageLexer.SEQUENCE, tokens.get(3).getType());
+        assertEquals(MusicLanguageLexer.SEQUENCE_ENTRY, tokens.get(4).getType());
+        assertEquals(MusicLanguageLexer.SEQUENCE_ENTRY, tokens.get(5).getType());
+    }
 
-        tokens.forEach(token -> {
-            assertNotEquals(MusicLanguageLexer.EQ, token.getType());
-        });
+    @Test
+    void testLexerMultipleStatementsSuccess() {
+        // Setup
+        String testInput = """
+                Note testNote
+                Set testNote = $C1.0#_0
+                Set testNote.key = C
+                """;
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(18, tokens.size());
+    }
+
+    @Test
+    void testLexerAddStatementSuccess() {
+        // Setup
+        String testInput = "add n1.key = 1";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(4, tokens.size());
+    }
+
+    @Test
+    void testLexerSubStatementSuccess() {
+        // Setup
+        String testInput = "sub n1.key = 1";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(4, tokens.size());
+    }
+
+
+    @Test
+    void testLexerDisplayStatementSuccess() {
+        // Setup
+        String testInput = "display n1";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(2, tokens.size());
     }
 }
