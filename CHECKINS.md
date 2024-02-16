@@ -1,3 +1,28 @@
+**Group 16 Project 1 Check-in 5**
+
+*Status of user study*
+
+The plan is to have final user study finished after we've completed a working version of the DSL by early/mid next week.
+This will give us time to do the user study and have a few more days to work on any feedback from the user.
+
+*Are there any last changes to your design, implementation or tests?*
+
+We spent a lot of time this week updating the front end lexer/parser to simplify our implementation while still
+providing the features requested from the first user study. The switch to Java delayed us a little bit but we're making
+good progress now so we're confident we'll be able to finish all the planned features by the deadline.
+
+*Plans for final video (possible draft version).*
+
+We'll complete the final video after the final user study is completed. Probably the Saturday or Sunday before the
+Monday deadline.
+
+*Planned timeline for the remaining days.*
+
+We plan to have a working version of the language by early next week so that we can complete the second user study.
+We'll then try to quickly finish the user study so that we have 3 or 4 days left in order to implement the user study
+feedback and do the final video. The backend for producing the lilypond file from the data structures is nearly finished
+so nearly all the work is now focused on the front end.
+
 **Group 16 Project 1 Check-in 4**
 
 Status of implementation:\
