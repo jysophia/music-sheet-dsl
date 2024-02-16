@@ -16,8 +16,8 @@ set: SET varname (DOT property)? EQUALS (note | chord | sequence | note_property
 display: DISPLAY varname;
 mutate: MUTATE varname DOT (KEY | BEAT) MUT_KEY_NUMBER;
 
-note: NOTE KEY BEAT PITCH OCTAVE NOTE_RETURN;
-chord: CHORD varname varname+ CHORD_END;
+note: NOTE KEY PITCH? BEAT OCTAVE NOTE_RETURN;
+chord: CHORD CHORD_ENTRY CHORD_ENTRY+ CHORD_END;
 sequence: SEQUENCE SEQUENCE_ENTRY SEQUENCE_END;
 note_property: KEY | BEAT | PITCH | OCTAVE;
 property: SET_KEY | SET_BEAT | SET_PITCH | SET_OCTAVE;

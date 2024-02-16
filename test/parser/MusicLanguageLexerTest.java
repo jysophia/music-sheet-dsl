@@ -62,7 +62,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesSuccess() {
-        String testInput = "Set testNote = $C1.0#_0";
+        String testInput = "Set testNote = $C#1.0_0";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(8, tokens.size());
@@ -73,17 +73,17 @@ public class MusicLanguageLexerTest {
         assertEquals(MusicLanguageLexer.NOTE, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.KEY, tokens.get(4).getType());
         assertEquals("C", tokens.get(4).getText());
-        assertEquals(MusicLanguageLexer.BEAT, tokens.get(5).getType());
-        assertEquals("1.0", tokens.get(5).getText());
-        assertEquals(MusicLanguageLexer.PITCH, tokens.get(6).getType());
-        assertEquals("#", tokens.get(6).getText());
+        assertEquals(MusicLanguageLexer.PITCH, tokens.get(5).getType());
+        assertEquals("#", tokens.get(5).getText());
+        assertEquals(MusicLanguageLexer.BEAT, tokens.get(6).getType());
+        assertEquals("1.0", tokens.get(6).getText());
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(7).getType());
         assertEquals("_0", tokens.get(7).getText());
     }
 
     @Test
     void testLexerSetNoteAllPropertiesWithNewLineSuccess() {
-        String testInput = "Set testNote = $C1.0#_0\n";
+        String testInput = "Set testNote = $C#1.0_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(7).getType());
@@ -93,7 +93,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesHigherOctaveSuccess() {
-        String testInput = "Set testNote = $C1.0#_1\n";
+        String testInput = "Set testNote = $C#1.0_1\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(tokens.size() - 2).getType());
@@ -102,7 +102,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesLowerOctaveSuccess() {
-        String testInput = "Set testNote = $C1.0#_-1\n";
+        String testInput = "Set testNote = $C#1.0_-1\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(tokens.size() - 2).getType());
@@ -112,7 +112,7 @@ public class MusicLanguageLexerTest {
 //
     @Test
     void testLexerSetNoteAllPropertiesInvalidKeyFail() {
-        String testInput = "Set testNote = $c1.0#_0\n";
+        String testInput = "Set testNote = $c#1.0_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         // TODO: How to test for an expected token recognition error.
@@ -123,7 +123,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesInvalidBeatFail() {
-        String testInput = "Set testNote = $C2.0#_0\n";
+        String testInput = "Set testNote = $C#2.0_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         // TODO: How to test for an expected token recognition error.
@@ -144,7 +144,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesInvalidPitchFail() {
-        String testInput = "Set testNote = $C1.0@_0\n";
+        String testInput = "Set testNote = $C@2.0_0\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         // TODO: How to test for an expected token recognition error.
@@ -155,7 +155,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesInvalidOctaveFail() {
-        String testInput = "Set testNote = $C1.0#_2\n";
+        String testInput = "Set testNote = $C#1.0_2\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
         // TODO: How to test for an expected token recognition error.
@@ -251,7 +251,7 @@ public class MusicLanguageLexerTest {
         // Setup
         String testInput = """
                 Note testNote
-                Set testNote = $C1.0#_0
+                Set testNote = $C#1.0_0
                 Set testNote.key = C
                 """;
         List<? extends Token> tokens = testTokenization(testInput);
