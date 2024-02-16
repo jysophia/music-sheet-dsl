@@ -22,10 +22,10 @@ CHORD: 'chord' WS* -> mode(CHORD_MODE);
 SEQUENCE: 'sequence(' WS* -> mode(SEQUENCE_MODE);
 
 mode SET_PROPERTY_MODE;
-SET_KEY: 'key =' -> mode(NOTE_MODE);
-SET_BEAT: 'beat =' -> mode(NOTE_MODE);
-SET_PITCH: 'pitch =' -> mode(NOTE_MODE);
-SET_OCTAVE: 'octave =' -> mode(NOTE_MODE);
+SET_KEY: 'key =' WS* -> mode(NOTE_MODE);
+SET_BEAT: 'beat =' WS* -> mode(NOTE_MODE);
+SET_PITCH: 'pitch =' WS* -> mode(NOTE_MODE);
+SET_OCTAVE: 'octave =' WS* -> mode(NOTE_MODE);
 
 mode NOTE_MODE;
 KEY: ('C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
