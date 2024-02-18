@@ -12,14 +12,18 @@ options { tokenVocab=MusicLanguageLexer; }
 program: statement* EOF;
 statement: declare | set | display | mutate STMT_NEWLINE?;
 declare: DECLARATION varname NAME_RETURN;
-set: SET varname (DOT property)? EQUALS (note | chord | sequence | note_property);
+set: SET varname (DOT property)? EQUALS operation;
+operation: note | chord | sequence | note_property;
 display: DISPLAY varname;
-mutate: MUTATE varname DOT (KEY | BEAT) MUT_KEY_NUMBER;
 
 note: NOTE KEY PITCH? BEAT OCTAVE NOTE_RETURN;
-chord: CHORD CHORD_ENTRY CHORD_ENTRY+ CHORD_END;
+chord: CHORD CHORD_ENTRY CHORD_ENTRY CHORD_ENTRY? CHORD_ENTRY? CHORD_END;
 sequence: SEQUENCE SEQUENCE_ENTRY SEQUENCE_END;
 note_property: KEY | BEAT | PITCH | OCTAVE;
 property: SET_KEY | SET_BEAT | SET_PITCH | SET_OCTAVE;
+
+mutate: MUTATE varname DOT (mutate_key | mutate_beat);
+mutate_key: MUT_KEY MUT_KEY_NUMBER;
+mutate_beat: MUT_BEAT MUT_BEAT_NUMBER;
 
 varname: NAME;

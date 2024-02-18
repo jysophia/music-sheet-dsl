@@ -46,8 +46,8 @@ OCTAVE: '_' ('-1' | '0' | '1') WS*;
 NOTE_RETURN: [\r\n]+ -> mode(DEFAULT_MODE);
 
 mode CHORD_MODE;
-CHORD_ENTRY: NAME;
-CHORD_END: ')' WS* -> channel(HIDDEN), mode(DEFAULT_MODE);
+CHORD_ENTRY: NAME WS*;
+CHORD_END: ')' [\r\n]? WS* -> mode(DEFAULT_MODE);
 CHORD_SEPARATOR: WS* COMMA WS* -> channel(HIDDEN);
 
 mode SEQUENCE_MODE;
