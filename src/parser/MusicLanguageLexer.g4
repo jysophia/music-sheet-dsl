@@ -1,21 +1,56 @@
 lexer grammar MusicLanguageLexer;
 
-PROGRAM_START: 'Start' WS*;
-NOTE_START: 'Note' WS* -> mode(NOTE_MODE);
+DECLARATION: ('Note' | 'Chord' | 'Sequence') WS* -> mode(NAME_MODE);
+SET: 'Set' WS* -> mode(NAME_MODE);
+DISPLAY: 'Display' WS* -> mode(NAME_MODE);
+MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
 
-// Line breaks are ignored during tokenization (note that this rule only applies in DEFAULT_MODE, not IDENT_MODE)
-WS : [\r\n\t ] -> channel(HIDDEN);
+WS : [\t ] -> channel(HIDDEN);
+STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
+COMMA: ',';
 
-// Mode specifically for tokenizing the arbitrary text inside the title and in table cells
+mode NAME_MODE;
+NAME: ~[[|\]\r\n,.=\t ()]+ WS*;
+NAME_RETURN: [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DISPLAY
+
+// For non DECLARATION/DISPLAY, we want to move it out of NAME_MODE.
+EQUALS: '=' WS*-> mode(SET_VAR_MODE);
+DOT: '.' -> mode(SET_PROPERTY_MODE);
+
+mode SET_VAR_MODE;
+NOTE: '$' -> mode(NOTE_MODE);
+CHORD: 'chord(' -> mode(CHORD_MODE);
+SEQUENCE: 'sequence(' WS* -> mode(SEQUENCE_MODE);
+
+mode SET_PROPERTY_MODE;
+SET_KEY: 'key =' WS* -> mode(NOTE_MODE);
+SET_BEAT: 'beat =' WS* -> mode(NOTE_MODE);
+SET_PITCH: 'pitch =' WS* -> mode(NOTE_MODE);
+SET_OCTAVE: 'octave =' WS* -> mode(NOTE_MODE);
+MUT_KEY: 'key' WS* -> mode(MUT_KEY_MODE);
+MUT_BEAT: 'beat' WS* -> mode(MUT_BEAT_MODE);
+
+mode MUT_KEY_MODE;
+MUT_KEY_NUMBER: ('0.5' | '1.0' | '1' | '1.5' | '2.0' | '2' | '2.5' | '3.0' | '3' | '3.5' |
+                '4.0' | '4' | '4.5' | '5.0' | '5' | '5.5' | '6.0' | '6' | '6.5' | '7.0' |
+                '7' | '7.5' | '8.0' | '8');
+
+mode MUT_BEAT_MODE;
+MUT_BEAT_NUMBER: ('1' | '2' | '3');
+
 mode NOTE_MODE;
-TEXT: ~[[|\]\r\n,.=]+;
-NOTE_EQ: '=' WS* 'note(' WS* -> mode(NOTE_ENTRY);
+KEY: ('C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
+BEAT: ('0.125' | '0.25' | '0.5' | '1.0') WS*;
+PITCH: '#' | 'b' WS*;
+OCTAVE: '_' ('-1' | '0' | '1') WS*;
+NOTE_RETURN: [\r\n]+ -> mode(DEFAULT_MODE);
 
-mode NOTE_ENTRY;
-NOTE_DIV: ',' WS*;
-KEY: ('c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b' | 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
-BEAT: ('0.25' | '0.5' | '1' | '2' | '4') WS*;
-PITCH: ('sharp' | 'flat' | 'none') WS*;
-NOTE_END: ')' WS* -> mode(DEFAULT_MODE);
+mode CHORD_MODE;
+CHORD_ENTRY: NAME WS*;
+CHORD_END: ')' [\r\n]? WS* -> mode(DEFAULT_MODE);
+CHORD_SEPARATOR: WS* COMMA WS* -> channel(HIDDEN);
 
-
+mode SEQUENCE_MODE;
+SEQUENCE_ENTRY: ITEM+ WS* COMMA+ WS*;
+ITEM: NOTE | CHORD;
+SEQUENCE_END: ')' WS* -> mode(DEFAULT_MODE);
