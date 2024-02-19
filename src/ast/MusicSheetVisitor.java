@@ -25,4 +25,6 @@ public interface MusicSheetVisitor<T, U> {
     U visit(MutateBeat mb, T t);
 
     U visit(MutateKey mk, T t);
+
+    U visit(Property p, T t);
 }

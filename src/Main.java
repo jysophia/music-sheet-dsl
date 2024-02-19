@@ -8,11 +8,9 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import parser.MusicLanguageLexer;
 import parser.MusicLanguageParser;
+import parser.ParseTreeToAST;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) throws IOException {

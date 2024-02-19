@@ -12,7 +12,7 @@ options { tokenVocab=MusicLanguageLexer; }
 musicsheet: statement* EOF;
 statement: declare | set | display | mutate | repeat STMT_NEWLINE?;
 declare: DECLARATION varname NAME_RETURN;
-set: SET varname (DOT property)? EQUALS? operation;
+set: SET varname ((DOT property) | EQUALS) operation;
 operation: note | chord | sequence | note_property;
 display: DISPLAY varname;
 

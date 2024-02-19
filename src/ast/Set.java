@@ -4,12 +4,12 @@ import ast.Statement;
 
 public class Set extends Statement {
   private final Name name;
-  private final NoteProperty noteProperty;
+  private final Property property;
   private final Operation operation;
 
-  public Set(Name name, NoteProperty noteProperty, Operation operation) {
+  public Set(Name name, Property property, Operation operation) {
     this.name = name;
-    this.noteProperty = noteProperty;
+    this.property = property;
     this.operation = operation;
   }
 
@@ -17,8 +17,8 @@ public class Set extends Statement {
     return name;
   }
 
-  public NoteProperty getNoteProperty() {
-    return noteProperty;
+  public Property getProperty() {
+    return property;
   }
 
   public Operation getOperation() {

@@ -7,6 +7,10 @@ public class NoteProperty extends Operation {
     this.property = property;
   }
 
+  public String getProperty() {
+    return property;
+  }
+
   @Override
   public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
     return v.visit(this, t);

@@ -1,4 +1,8 @@
+package parser;
+
 import ast.*;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.MusicLanguageParser;
 import parser.MusicLanguageParserBaseVisitor;
@@ -30,13 +34,13 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   @Override
   public Set visitSet(MusicLanguageParser.SetContext ctx) {
     Name name = (Name) ctx.varname().accept(this);
-    NoteProperty np = null;
+    Property p = null;
     if (ctx.property() != null) {
-      np = (NoteProperty) ctx.property().accept(this); // this might not work
+      p = (Property) ctx.property().accept(this); // this might not work
     }
     Operation op = (Operation) ctx.operation().accept(this);
 
-    return new Set(name, np, op);
+    return new Set(name, p, op);
   }
 
   @Override
@@ -100,5 +104,22 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   @Override
   public MutateKey visitMutate_key(MusicLanguageParser.Mutate_keyContext ctx) {
     return new MutateKey(ctx.MUT_KEY_NUMBER().getText());
+  }
+
+  @Override
+  public Property visitProperty(MusicLanguageParser.PropertyContext ctx) {
+    if (ctx.SET_KEY() != null) {
+      return new Property("SET_KEY");
+    }
+    if (ctx.SET_BEAT() != null) {
+      return new Property("SET_BEAT");
+    }
+    if (ctx.SET_OCTAVE() != null) {
+      return new Property("SET_OCTAVE");
+    }
+    if (ctx.SET_PITCH() != null) {
+      return new Property("SET_PITCH");
+    }
+    return null;
   }
 }
