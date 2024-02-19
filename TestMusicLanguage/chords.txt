@@ -24,7 +24,7 @@ Repeat (2) {
 
     Repeat(2) {
         Sub n3.key 0.5
-        Add m4.beat 1
+        Add n4.beat 1
     }
 }
 
