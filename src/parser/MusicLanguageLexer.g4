@@ -1,21 +1,22 @@
 lexer grammar MusicLanguageLexer;
 
-DECLARATION: ('Note' | 'Chord' | 'Sequence') -> mode(NAME_MODE);
-SET: 'Set' -> mode(NAME_MODE);
-DISPLAY: 'Display' -> mode(NAME_MODE);
-MUTATE: ('Add' | 'Sub') -> mode(NAME_MODE);
-REPEAT: 'Repeat' -> mode(REPEAT_MODE);
+DECLARATION: ('Note' | 'Chord' | 'Sequence') WS*-> mode(NAME_MODE);
+SET: 'Set' WS* -> mode(NAME_MODE);
+DISPLAY: 'Display' WS* -> mode(NAME_MODE);
+MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
+REPEAT: 'Repeat' WS* -> mode(REPEAT_MODE);
+REPEAT_DISPLAY: 'Display this';
 
-WS : [\t ] -> channel(HIDDEN);
+WS : [\t ]+ -> channel(HIDDEN);
 STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
 COMMA: ',' -> channel(HIDDEN);
 CLOSE_BRACE: '}';
 
 mode REPEAT_MODE;
 REP_NUMBER: [0-9]+;
-OPEN_PAREN: WS* '(' WS* -> channel(HIDDEN);
-OPEN_BRACE: WS* '{' WS* -> mode(DEFAULT_MODE);
-CLOSE_PAREN: WS* ')' WS* -> channel(HIDDEN);
+OPEN_PAREN: '(' WS*;
+OPEN_BRACE: '{' WS* -> mode(DEFAULT_MODE);
+CLOSE_PAREN: ')' WS*;
 
 mode NAME_MODE;
 NAME: ~[[|\]\r\n,.=\t ()]+;

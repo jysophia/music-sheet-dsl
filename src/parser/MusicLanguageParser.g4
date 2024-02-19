@@ -27,6 +27,7 @@ mutate_key: MUT_KEY MUT_KEY_NUMBER;
 mutate_beat: MUT_BEAT MUT_BEAT_NUMBER;
 
 repeat: REPEAT OPEN_PAREN REP_NUMBER CLOSE_PAREN OPEN_BRACE STMT_NEWLINE* repeat_cmds CLOSE_BRACE STMT_NEWLINE?;
-repeat_cmds: ((mutate | display) STMT_NEWLINE?)*;
+repeat_cmds: ((mutate | repeat_display) STMT_NEWLINE)*;
+repeat_display: REPEAT_DISPLAY;
 
 varname: NAME;
