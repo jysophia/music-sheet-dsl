@@ -3,10 +3,10 @@ package ast;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Note extends Operation {
-    private String key;
-    private String pitch;
-    private String beat;
-    private String octave;
+    private final String key;
+    private final String pitch;
+    private final String beat;
+    private final String octave;
 
     public Note(String key, String beat, String pitch, String octave) {
         this.key = key;
@@ -29,22 +29,6 @@ public class Note extends Operation {
 
     public String getOctave() {
         return octave;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public void setPitch(String pitch) {
-        this.pitch = pitch;
-    }
-
-    public void setBeat(String beat) {
-        this.beat = beat;
-    }
-
-    public void setOctave(String octave) {
-        this.octave = octave;
     }
 
     // This needs to be deleted later

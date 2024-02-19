@@ -19,4 +19,10 @@ public interface MusicSheetVisitor<T, U> {
     U visit(NoteProperty n, T t);
 
     U visit(Set s, T t);
+
+    U visit(MutateStmt m, T t);
+
+    U visit(MutateBeat mb, T t);
+
+    U visit(MutateKey mk, T t);
 }

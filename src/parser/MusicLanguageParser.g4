@@ -12,7 +12,7 @@ options { tokenVocab=MusicLanguageLexer; }
 musicsheet: statement* EOF;
 statement: declare | set | display | mutate | repeat STMT_NEWLINE?;
 declare: DECLARATION varname NAME_RETURN;
-set: SET varname (DOT property)? EQUALS operation;
+set: SET varname (DOT property)? EQUALS? operation;
 operation: note | chord | sequence | note_property;
 display: DISPLAY varname;
 
@@ -22,7 +22,8 @@ sequence: SEQUENCE SEQUENCE_ENTRY+ SEQUENCE_END;
 note_property: KEY | BEAT | PITCH | OCTAVE;
 property: SET_KEY | SET_BEAT | SET_PITCH | SET_OCTAVE;
 
-mutate: MUTATE varname DOT (mutate_key | mutate_beat);
+mutate: MUTATE varname DOT mutation_type;
+mutation_type: mutate_key | mutate_beat;
 mutate_key: MUT_KEY MUT_KEY_NUMBER;
 mutate_beat: MUT_BEAT MUT_BEAT_NUMBER;
 

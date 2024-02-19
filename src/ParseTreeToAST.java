@@ -45,6 +45,11 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   }
 
   @Override
+  public MutateStmt visitMutate(MusicLanguageParser.MutateContext ctx) {
+    return new MutateStmt((Name) ctx.varname().accept(this), (Mutation) ctx.mutation_type().accept(this));
+  }
+
+  @Override
   public Chord visitChord(MusicLanguageParser.ChordContext ctx) {
     List<Name> notes = new ArrayList<>();
     // visit the chord entries of the chord context to build the note names
@@ -85,5 +90,15 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   @Override
   public Name visitVarname(MusicLanguageParser.VarnameContext ctx) {
     return new Name(ctx.getText());
+  }
+
+  @Override
+  public MutateBeat visitMutate_beat(MusicLanguageParser.Mutate_beatContext ctx) {
+    return new MutateBeat(Double.parseDouble(ctx.MUT_BEAT_NUMBER().getText()));
+  }
+
+  @Override
+  public MutateKey visitMutate_key(MusicLanguageParser.Mutate_keyContext ctx) {
+    return new MutateKey(ctx.MUT_KEY_NUMBER().getText());
   }
 }

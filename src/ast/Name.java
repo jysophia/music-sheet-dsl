@@ -13,6 +13,6 @@ public class Name extends Node {
 
   @Override
   public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
-    return null;
+    return v.visit(this, t);
   }
 }

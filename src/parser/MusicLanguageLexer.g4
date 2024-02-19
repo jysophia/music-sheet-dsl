@@ -34,10 +34,10 @@ SEQUENCE: 'sequence(' -> mode(SEQUENCE_MODE);
 SET_VAR_WS: WS -> channel(HIDDEN);
 
 mode SET_PROPERTY_MODE;
-SET_KEY: 'key =' -> mode(NOTE_MODE);
-SET_BEAT: 'beat =' -> mode(NOTE_MODE);
-SET_PITCH: 'pitch =' -> mode(NOTE_MODE);
-SET_OCTAVE: 'octave =' -> mode(NOTE_MODE);
+SET_KEY: 'key' WS* '=' WS* -> mode(NOTE_MODE);
+SET_BEAT: 'beat' WS* '=' WS* -> mode(NOTE_MODE);
+SET_PITCH: 'pitch' WS* '=' WS* -> mode(NOTE_MODE);
+SET_OCTAVE: 'octave' WS* '=' WS* -> mode(NOTE_MODE);
 MUT_KEY: 'key' -> mode(MUT_KEY_MODE);
 MUT_BEAT: 'beat' -> mode(MUT_BEAT_MODE);
 SET_MUT_WS: WS -> channel(HIDDEN);
