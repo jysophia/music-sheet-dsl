@@ -1,3 +1,4 @@
+/*
 import ast.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.MusicLanguageParser;
@@ -6,6 +7,7 @@ import parser.MusicLanguageParserBaseVisitor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 // TODO: This `ast.Note` may need to change to `Node` when we implement the AST.
 public class VisitorInterpreter extends MusicLanguageParserBaseVisitor<Node> {
@@ -35,4 +37,7 @@ public class VisitorInterpreter extends MusicLanguageParserBaseVisitor<Node> {
         // Everything below this is just for pseudo testing the evaluator. Can overwrite.
         return new MusicSheet(new ArrayList<Sequence>());
     }
+
+
 }
+*/

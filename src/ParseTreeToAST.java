@@ -27,22 +27,63 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
     return new Declare(ctx.DECLARATION().getText(), (Name) ctx.varname().accept(this));
   }
 
-  @Override Set visitSet(MusicLanguageParser.SetContext ctx) {
+  @Override
+  public Set visitSet(MusicLanguageParser.SetContext ctx) {
     Name name = (Name) ctx.varname().accept(this);
-    // return new Set()
+    NoteProperty np = null;
+    if (ctx.property() != null) {
+      np = (NoteProperty) ctx.property().accept(this); // this might not work
+    }
+    Operation op = (Operation) ctx.operation().accept(this);
+
+    return new Set(name, np, op);
+  }
+
+  @Override
+  public Display visitDisplay(MusicLanguageParser.DisplayContext ctx) {
+    return new Display((Name) ctx.varname().accept(this));
   }
 
   @Override
   public Chord visitChord(MusicLanguageParser.ChordContext ctx) {
     List<Name> notes = new ArrayList<>();
-
     // visit the chord entries of the chord context to build the note names
     for (TerminalNode ce : ctx.CHORD_ENTRY()) {
       notes.add(new Name(ce.getText()));
     }
-
     return new Chord(notes);
   }
 
+  @Override
+  public Note visitNote(MusicLanguageParser.NoteContext ctx) {
+    String key = ctx.KEY().getText();
+    String beat = ctx.BEAT().getText();
+    String pitch = null;
+    if (ctx.PITCH() != null) {
+      pitch = ctx.PITCH().getText();
+    }
+    String octave = ctx.OCTAVE().getText();
+    return new Note(key, beat, pitch, octave);
+  }
 
+  @Override
+  public Sequence visitSequence(MusicLanguageParser.SequenceContext ctx) {
+    List<Name> chordsAndNotes = new ArrayList<>();
+
+    for (TerminalNode nc : ctx.SEQUENCE_ENTRY()) {
+      chordsAndNotes.add(new Name(nc.getText()));
+    }
+
+    return new Sequence(chordsAndNotes);
+  }
+
+  @Override
+  public NoteProperty visitNote_property(MusicLanguageParser.Note_propertyContext ctx) {
+    return new NoteProperty(ctx.getChild(0).getText());
+  }
+
+  @Override
+  public Name visitVarname(MusicLanguageParser.VarnameContext ctx) {
+    return new Name(ctx.getText());
+  }
 }

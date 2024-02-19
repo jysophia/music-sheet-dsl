@@ -3,7 +3,7 @@ package ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicSheet extends Node{
+public class MusicSheet extends Node {
     private final List<Statement> statements;
 
     public MusicSheet(List<Statement> statements) {
