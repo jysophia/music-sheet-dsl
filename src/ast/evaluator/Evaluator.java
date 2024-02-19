@@ -3,8 +3,14 @@ package ast.evaluator;
 import ast.*;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
+
+    // Direct mapping of String to Note since we dont support variable pointing
+    public Map<String, Note> noteSymbolTable = new HashMap<>();
 
     public Evaluator() {
 
@@ -30,10 +36,12 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         for (Node n : s.getChordAndNoteSequence()) {
             n.accept(this, writer);
 
-            if (n instanceof Note) {
-                writer.print(((Note) n).getBeat());
-            } else if (n instanceof Chord) {
-                writer.print(((Chord) n).getBeat());
+            if (n instanceof Note nt) {
+                writer.print(nt.getBeat());
+            } else if (n instanceof Chord c) {
+                String firstNote = c.getNotes().get(0);
+                String beat = noteSymbolTable.get(firstNote).getBeat();
+                writer.print(beat);
             }
         }
 
@@ -43,8 +51,9 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     public Void visit(Chord c, PrintWriter writer) {
         writer.print("<");
 
-        for (Note n : c.getNotes()) {
-            n.accept(this, writer);
+        for (String n : c.getNotes()) {
+            Note note = noteSymbolTable.get(n);
+            note.accept(this, writer);
         }
 
         writer.print(">");
