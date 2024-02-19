@@ -21,6 +21,11 @@ Sub n2.beat 1
 Repeat (2) {
     Add n3.key 0.5
     Sub n4.beat 1
+
+    Repeat(2) {
+        Sub n3.key 0.5
+        Add m4.beat 1
+    }
 }
 
 Display c1
