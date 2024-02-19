@@ -109,7 +109,7 @@ public class MusicLanguageLexerTest {
         assertEquals("_-1", tokens.get(tokens.size() - 2).getText());
     }
 
-//
+
     @Test
     void testLexerSetNoteAllPropertiesInvalidKeyFail() {
         String testInput = "Set testNote = $c#1.0_0\n";
