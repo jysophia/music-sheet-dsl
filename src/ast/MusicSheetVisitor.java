@@ -27,4 +27,8 @@ public interface MusicSheetVisitor<T, U> {
     U visit(MutateKey mk, T t);
 
     U visit(Property p, T t);
+
+    U visit(Program p, T t);
+
+    U visit(Repeat r, T t);
 }

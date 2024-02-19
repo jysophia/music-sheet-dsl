@@ -12,6 +12,11 @@ import java.util.List;
 
 public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   @Override
+  public Program visitProgram(MusicLanguageParser.ProgramContext ctx) {
+    return new Program((MusicSheet) ctx.musicsheet().accept(this));
+  }
+
+  @Override
   public MusicSheet visitMusicsheet(MusicLanguageParser.MusicsheetContext ctx) {
     List<Statement> statements = new ArrayList<>();
     // visit every statement in the music sheet context statements and add to list
@@ -121,5 +126,18 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
       return new Property("SET_PITCH");
     }
     return null;
+  }
+
+  @Override
+  public Repeat visitRepeat(MusicLanguageParser.RepeatContext ctx) {
+    List<MusicSheet> musicSheets = new ArrayList<>();
+    int iterations = Integer.parseInt(ctx.REP_NUMBER().getText());
+
+    for (int i = 0; i < iterations; i++) {
+      MusicSheet ms = (MusicSheet) ctx.musicsheet().accept(this);
+      musicSheets.add(ms);
+    }
+
+    return new Repeat(musicSheets);
   }
 }
