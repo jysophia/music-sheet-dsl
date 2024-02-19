@@ -2,7 +2,7 @@ package ast;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-public class Note extends Node{
+public class Note extends Operation {
     private String key;
     private String pitch;
     private String beat;

@@ -1,23 +1,17 @@
 package ast;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Chord extends Node{
+public class Chord extends Operation {
 
-    private final ArrayList<Note> notes;
-    private final String beat;
+    private final List<Name> notes;
 
-    public Chord(ArrayList<Note> notes, String beat) {
+    public Chord(List<Name> notes) {
         this.notes = notes;
-        this.beat = beat;
     }
 
-    public ArrayList<Note> getNotes() {
+    public List<Name> getNotes() {
         return this.notes;
-    }
-
-    public String getBeat() {
-        return this.beat;
     }
 
     @Override

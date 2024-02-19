@@ -2,7 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
-public class Sequence extends Node{
+public class Sequence extends Operation {
 
     private final ArrayList<Node> chordsAndNotes;
 

@@ -1,19 +1,17 @@
 package ast;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class MusicSheet extends Node{
+    private final List<Statement> statements;
 
-    private ArrayList<Sequence> sequences;
-
-    public MusicSheet(ArrayList<Sequence> sequences) {
-        this.sequences = sequences;
+    public MusicSheet(List<Statement> statements) {
+        this.statements = statements;
     }
 
-    public ArrayList<Sequence> getSequences() {
-        return this.sequences;
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {

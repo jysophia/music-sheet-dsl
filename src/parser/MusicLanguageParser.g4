@@ -9,7 +9,7 @@ options { tokenVocab=MusicLanguageLexer; }
 //row: ROW_START (item (SEP item)*)? ROW_END;
 //item: TEXT;
 
-program: statement* EOF;
+musicsheet: statement* EOF;
 statement: declare | set | display | mutate | repeat STMT_NEWLINE?;
 declare: DECLARATION varname NAME_RETURN;
 set: SET varname (DOT property)? EQUALS operation;
