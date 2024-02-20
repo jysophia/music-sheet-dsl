@@ -137,17 +137,23 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         writer.print("    ");
 
         // This should only be Chord or Note
-        for (Node n : s.getChordAndNoteSequence()) {
+        for (Name name : s.getChordAndNoteSequence()) {
+            Node n = symbolTable.get(name.getName());
             n.accept(this, writer);
 
+            double beat = 0;
+
             if (n instanceof Note nt) {
-                writer.print(nt.getBeat());
+                beat = Double.parseDouble(nt.getBeat());
             } else if (n instanceof Chord c) {
                 String firstNoteName = c.getNotes().get(0).getName();
                 Note firstNote = (Note) symbolTable.get(firstNoteName);
-                String beat = firstNote.getBeat();
-                writer.print(beat);
+                beat = Double.parseDouble(firstNote.getBeat());
             }
+
+            beat = 4 / beat;
+            writer.print((int) beat);
+            writer.print(" ");
         }
 
         return null;
@@ -168,13 +174,19 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
     public Void visit(Note n, PrintWriter writer) {
         String pitch = n.getPitch();
+        String key = n.getKey().toLowerCase();
+
         String mod = "";
-        if (pitch.equals("flat")) {
-            mod = "es";
-        } else if (pitch.equals("sharp")) {
-            mod = "is";
+        if (pitch != null) {
+            if (pitch.equals("b")) {
+                mod = "es";
+            } else if (pitch.equals("#")) {
+                mod = "is";
+            }
+
         }
-        writer.print(n.getKey() + mod + "'" + " ");
+
+        writer.print(key + mod + "'" + " ");
         return null;
     }
 }
