@@ -95,6 +95,67 @@ public class MusicLanguageParserTest {
 
     }
     @Test
+    public void testParserChordMutateSuccessTest() throws IOException {
+        String input = """
+                Chord c1
+                Set c1 = chord(n1, n2, n3)
+                Add c1.key 1""";
+        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromString(input));
+
+        for (Token token : lexer.getAllTokens()) {
+            System.out.println(token);
+        }
+
+        lexer.reset();
+        TokenStream tokens = new CommonTokenStream(lexer);
+
+        MusicLanguageParser parser =  new MusicLanguageParser(tokens);
+
+        MusicLanguageParser.ProgramContext program = parser.program();
+        assertEquals(4, program.children.size()); // 4 because EOF counts as a token
+
+        // test that third statement "Add c1.key 1" is a mutation
+        MusicLanguageParser.StatementContext thirdStmt = (MusicLanguageParser.StatementContext) program.children.get(2);
+        assertInstanceOf(MusicLanguageParser.MutateContext.class, thirdStmt.children.get(0));
+    }
+    @Test
+    public void testParserRepeatSuccessTest() throws IOException {
+        String input = """
+                Repeat (5) {
+                Add n1.key 1
+                Display this
+                }
+                """;
+        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromString(input));
+
+        for (Token token : lexer.getAllTokens()) {
+            System.out.println(token);
+        }
+
+        lexer.reset();
+        TokenStream tokens = new CommonTokenStream(lexer);
+
+        MusicLanguageParser parser =  new MusicLanguageParser(tokens);
+
+        MusicLanguageParser.ProgramContext program = parser.program();
+        assertEquals(2, program.children.size()); // 2 because Repeat is its own child and EOF count as child
+
+        // test that first statement "Repeat (5) {" is repeat
+        MusicLanguageParser.StatementContext firstStmt = (MusicLanguageParser.StatementContext) program.children.get(0);
+        assertInstanceOf(MusicLanguageParser.RepeatContext.class, firstStmt.children.get(0));
+
+        // test that repeat statement has children of size 7
+        MusicLanguageParser.RepeatContext repeatStmt = (MusicLanguageParser.RepeatContext) program.children.get(0).getChild(0);
+        assertEquals(7, repeatStmt.getChildCount());
+
+        // test that the first statement in repeat is a mutation
+        MusicLanguageParser.Repeat_cmdsContext repeat_cmds = (MusicLanguageParser.Repeat_cmdsContext) repeatStmt.children.get(5);
+        assertInstanceOf(MusicLanguageParser.MutateContext.class, repeat_cmds.children.get(0));
+
+        // test that the second statement in repeat is a REPEAT_DISPLAY
+        assertInstanceOf(MusicLanguageParser.Repeat_displayContext.class, repeat_cmds.children.get(2));
+    }
+    @Test
     void testParserProgramNoStatementSuccess() {
         fail("Not Implemented Yet");
     }

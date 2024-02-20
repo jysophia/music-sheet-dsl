@@ -1,16 +1,16 @@
 package ast;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Sequence extends Node{
+public class Sequence extends Operation {
 
-    private final ArrayList<Node> chordsAndNotes;
+    private final List<Name> chordsAndNotes;
 
-    public Sequence(ArrayList<Node> chordsAndNotes) {
+    public Sequence(List<Name> chordsAndNotes) {
         this.chordsAndNotes = chordsAndNotes;
     }
 
-    public ArrayList<Node> getChordAndNoteSequence() {
+    public List<Name> getChordAndNoteSequence() {
         return this.chordsAndNotes;
     }
 

@@ -1,39 +1,41 @@
 
 
 import ast.MusicSheet;
-import ast.evaluator.Evaluator;
+// import ast.evaluator.Evaluator;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import parser.MusicLanguageLexer;
 import parser.MusicLanguageParser;
+import parser.ParseTreeToAST;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         // Code adapted from TinyVars-main in-class example.
-        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/notes.txt"));
+        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/chords.txt"));
 
         for (Token token : lexer.getAllTokens()) {
             System.out.println(token);
         }
         lexer.reset();
+
         TokenStream tokens = new CommonTokenStream(lexer);
-
         MusicLanguageParser parser = new MusicLanguageParser(tokens);
+        ParseTreeToAST visitor = new ParseTreeToAST();
 
-        MusicLanguageParser.ProgramContext tree = parser.program();
+        MusicSheet parsedSheet = visitor.visitMusicsheet(parser.musicsheet());
 
+        System.out.println("Parsing to AST complete");
+
+        /*
         if (parser.getNumberOfSyntaxErrors() > 0) {
             System.out.println("syntax errors");
         } else {
             VisitorInterpreter vinterp = new VisitorInterpreter();
-            MusicSheet parsedSheet = vinterp.visitProgram(tree);
+            MusicSheet parsedSheet = vinterp.visitMusicsheet(tree);
 
             File newFile = new File("./score.ly");
 
@@ -59,5 +61,7 @@ public class Main {
 
             out.close();
         }
+
+         */
     }
 }

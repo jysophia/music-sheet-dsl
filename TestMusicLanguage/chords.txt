@@ -1,10 +1,21 @@
 Note n1
 Note n2
 Note n3
+Note n4
 
 Set n1 = $D#1.0_0
 Set n2 = $G1.0_0
 Set n3 = $B1.0_0
 
+Set n4.key = C
+Set n4.beat = 0.25
+Set n4.octave = _-1
+Set n4.pitch = #
+
 Chord c1
 Set c1 = chord(n1, n2, n3)
+
+Add n1.key 0.5
+Sub n2.beat 1
+
+Display c1

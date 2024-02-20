@@ -1,3 +1,4 @@
+/*
 package ast.evaluator;
 
 import ast.*;
@@ -72,3 +73,4 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         return null;
     }
 }
+*/

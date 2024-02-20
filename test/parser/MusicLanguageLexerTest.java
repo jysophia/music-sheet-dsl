@@ -26,7 +26,7 @@ public class MusicLanguageLexerTest {
 
         assertEquals(3, tokens.size());
         assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
-        assertEquals("Note", tokens.getFirst().getText());
+        assertEquals("Note ", tokens.getFirst().getText());
         assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
         assertEquals("testNote", tokens.get(1).getText());
 //        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
@@ -40,7 +40,7 @@ public class MusicLanguageLexerTest {
 
         assertEquals(3, tokens.size());
         assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
-        assertEquals("Chord", tokens.getFirst().getText());
+        assertEquals("Chord ", tokens.getFirst().getText());
         assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
         assertEquals("testChord", tokens.get(1).getText());
 //        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
@@ -54,7 +54,7 @@ public class MusicLanguageLexerTest {
 
         assertEquals(3, tokens.size());
         assertEquals(MusicLanguageLexer.DECLARATION, tokens.getFirst().getType());
-        assertEquals("Sequence", tokens.getFirst().getText());
+        assertEquals("Sequence ", tokens.getFirst().getText());
         assertEquals(MusicLanguageLexer.NAME, tokens.get(1).getType());
         assertEquals("testSequence", tokens.get(1).getText());
 //        assertEquals(MusicLanguageLexer.NEWLINE, tokens.get(2).getType());
@@ -83,7 +83,7 @@ public class MusicLanguageLexerTest {
 
     @Test
     void testLexerSetNoteAllPropertiesWithNewLineSuccess() {
-        String testInput = "Set testNote = $C#1.0_0\n";
+        String testInput = "Set testNote = $C#1.0_0";
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.get(7).getType());
@@ -109,7 +109,7 @@ public class MusicLanguageLexerTest {
         assertEquals("_-1", tokens.get(tokens.size() - 2).getText());
     }
 
-//
+
     @Test
     void testLexerSetNoteAllPropertiesInvalidKeyFail() {
         String testInput = "Set testNote = $c#1.0_0\n";
@@ -169,7 +169,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testNote.key = C";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(5, tokens.size());
         assertEquals(MusicLanguageLexer.SET_KEY, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.KEY, tokens.getLast().getType());
     }
@@ -179,7 +179,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testNote.beat = 0.25";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(5, tokens.size());
         assertEquals(MusicLanguageLexer.SET_BEAT, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.BEAT, tokens.getLast().getType());
     }
@@ -189,7 +189,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testNote.pitch = b";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(5, tokens.size());
         assertEquals(MusicLanguageLexer.SET_PITCH, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.PITCH, tokens.getLast().getType());
     }
@@ -199,7 +199,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testNote.octave = _-1";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(5, tokens.size());
         assertEquals(MusicLanguageLexer.SET_OCTAVE, tokens.get(3).getType());
         assertEquals(MusicLanguageLexer.OCTAVE, tokens.getLast().getType());
     }
@@ -210,7 +210,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testChord = chord(note1, note2)\n";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(7, tokens.size());
         assertEquals(MusicLanguageLexer.SET, tokens.getFirst().getType());
         assertEquals(MusicLanguageLexer.EQUALS, tokens.get(2).getType());
         assertEquals(MusicLanguageLexer.CHORD, tokens.get(3).getType());
@@ -221,7 +221,7 @@ public class MusicLanguageLexerTest {
     @Test
     void testLexerInputChordMissingParenthesesNotesFail() {
         // Setup
-        String testInput = "Set testChord = chord note1, note2\n";
+        String testInput = "Set testChord = chord note1, note2";
         List<? extends Token> tokens = testTokenization(testInput);
 
         //TODO: currently this works because parentheses are separate tokens and hidden.
@@ -238,7 +238,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Set testSequence = sequence(testNote, testChord)";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(6, tokens.size());
+        assertEquals(7, tokens.size());
         assertEquals(MusicLanguageLexer.SET, tokens.getFirst().getType());
         assertEquals(MusicLanguageLexer.EQUALS, tokens.get(2).getType());
         assertEquals(MusicLanguageLexer.SEQUENCE, tokens.get(3).getType());
@@ -265,7 +265,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Add n1.key 1";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(4, tokens.size());
+        assertEquals(5, tokens.size());
     }
 
     @Test
@@ -274,7 +274,7 @@ public class MusicLanguageLexerTest {
         String testInput = "Sub n1.key 1";
         List<? extends Token> tokens = testTokenization(testInput);
 
-        assertEquals(4, tokens.size());
+        assertEquals(5, tokens.size());
     }
 
 
@@ -285,5 +285,21 @@ public class MusicLanguageLexerTest {
         List<? extends Token> tokens = testTokenization(testInput);
 
         assertEquals(2, tokens.size());
+    }
+
+    @Test
+    void testLexerRepeatStatementSuccess() {
+        String testInput = "Repeat (5) {\nAdd n1.key 1\n}\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(11, tokens.size());
+    }
+
+    @Test
+    void testLexerRepeatMultipleStatementsSuccess() {
+        String testInput = "Sequence s1\nRepeat (5) {\nAdd n1.key 1\nSet s1 = sequence(n1)\nDisplay s1\n}\n";
+        List<? extends Token> tokens = testTokenization(testInput);
+
+        assertEquals(23, tokens.size());
     }
 }

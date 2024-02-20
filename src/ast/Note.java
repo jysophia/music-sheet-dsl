@@ -2,15 +2,17 @@ package ast;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-public class Note extends Node{
-    private String key;
-    private String pitch;
-    private String beat;
+public class Note extends Operation {
+    private final String key;
+    private final String pitch;
+    private final String beat;
+    private final String octave;
 
-    public Note(String key, String beat, String pitch) {
+    public Note(String key, String beat, String pitch, String octave) {
         this.key = key;
         this.pitch = pitch;
         this.beat = beat;
+        this.octave = octave;
     }
 
     public String getKey() {
@@ -25,18 +27,9 @@ public class Note extends Node{
         return this.beat;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public String getOctave() {
+        return octave;
     }
-
-    public void setPitch(String pitch) {
-        this.pitch = pitch;
-    }
-
-    public void setBeat(String beat) {
-        this.beat = beat;
-    }
-
 
     // This needs to be deleted later
     public String printNote() {
