@@ -53,23 +53,6 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
             }
         }
 
-
-
-        // Todo-Will pattern violation
-//        if (type == "Note") {
-//            Note n = new Note(null, null, null, null);
-//            symbolTable.put(name, n);
-//            n.accept(this, writer);
-//        } else if (type == "Chord") {
-//            Chord c = new Chord(null);
-//            symbolTable.put(name, d);
-//            c.accept(this, writer);
-//        } else if (type == "Sequence") {
-//            Sequence s = new Sequence(null);
-//            symbolTable.put(name, s);
-//            s.accept(this, writer);
-//        }
-        System.out.println("Set");
         return null;
     }
 
@@ -89,7 +72,22 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(MutateStmt m, PrintWriter printWriter) {
-        System.out.println("MutateStmt");
+        Name varName = m.getVarname();
+        Mutation mut = m.getMutation();
+        String type = m.getType();
+
+        Note note = (Note) symbolTable.get(varName.getName());
+
+        // Only Notes can be mutated
+        if (type == "Add") {
+
+        } else if (type == "Sub") {
+
+        } else {
+            System.out.println("Unrecognized type.");
+        }
+
+
         return null;
     }
 

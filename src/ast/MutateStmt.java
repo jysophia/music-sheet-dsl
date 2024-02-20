@@ -4,6 +4,7 @@ public class MutateStmt extends Statement {
   private final Name varname;
   private final Mutation mutation;
   private final String type;
+
   public MutateStmt(Name varname, Mutation mutation, String type) {
     this.varname = varname;
     this.mutation = mutation;
@@ -16,6 +17,10 @@ public class MutateStmt extends Statement {
 
   public Mutation getMutation() {
     return mutation;
+  }
+
+  public String getType() {
+      return this.type;
   }
 
   @Override
