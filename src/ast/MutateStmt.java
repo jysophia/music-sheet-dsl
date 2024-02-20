@@ -3,9 +3,11 @@ package ast;
 public class MutateStmt extends Statement {
   private final Name varname;
   private final Mutation mutation;
-  public MutateStmt(Name varname, Mutation mutation) {
+  private final String type;
+  public MutateStmt(Name varname, Mutation mutation, String type) {
     this.varname = varname;
     this.mutation = mutation;
+    this.type = type;
   }
 
   public Name getVarname() {
