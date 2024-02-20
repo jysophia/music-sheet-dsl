@@ -84,9 +84,29 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
         // Only Notes can be mutated
         if (mut instanceof MutateKey){
-            String key = note.getKey();
+            String key = ((MutateKey) mut).getNewkey();
+
+            if (type == "add") {
+
+            } else if (type == "sub") {
+
+            } else {
+                System.out.println("Unsupported modification");
+            }
+
         } else if (mut instanceof MutateBeat) {
-            String beat = note.getBeat();
+            double mutBeat = ((MutateBeat) mut).getNewbeat();
+            double noteBeat = Double.parseDouble(note.getBeat());
+
+            if (type == "add") {
+                noteBeat = noteBeat + mutBeat;
+            } else if (type == "sub") {
+                noteBeat = noteBeat - mutBeat;
+            } else {
+                System.out.println("Unsupported modification");
+            }
+
+            note.setBeat(Double.toString(noteBeat));
         }
 
         return null;
