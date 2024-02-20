@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
-    // Direct mapping of String to Note since we dont support variable pointing
+    // Direct mapping of String to Node since we dont support variable pointing
     public Map<String, Node> symbolTable = new HashMap<>();
 
     public Evaluator() {
@@ -34,8 +34,8 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         } else {
             // Should only fall into this for Note properties being set
             Note note;
-            if (symbolTable.get(n) != null) {
-                note = (Note) symbolTable.get(n);
+            if (symbolTable.get(n.getName()) != null) {
+                note = (Note) symbolTable.get(n.getName());
             } else {
                 note = new Note(null, null, null, null);
             }
@@ -51,13 +51,17 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
             } else if (p.getProperty() == "SET_OCTAVE") {
                 note.setOctave(prop);
             }
+
+            symbolTable.put(n.getName(), note);
         }
 
         return null;
     }
 
     public Void visit(Display d, PrintWriter printWriter) {
-        System.out.println("Display");
+        Name sequenceName = d.getName();
+        Sequence displaySequence = (Sequence) symbolTable.get(sequenceName.getName());
+        displaySequence.accept(this, printWriter);
         return null;
     }
 
@@ -79,14 +83,11 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         Note note = (Note) symbolTable.get(varName.getName());
 
         // Only Notes can be mutated
-        if (type == "Add") {
-
-        } else if (type == "Sub") {
-
-        } else {
-            System.out.println("Unrecognized type.");
+        if (mut instanceof MutateKey){
+            String key = note.getKey();
+        } else if (mut instanceof MutateBeat) {
+            String beat = note.getBeat();
         }
-
 
         return null;
     }
@@ -136,17 +137,18 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         writer.print("    ");
 
         // This should only be Chord or Note
-//        for (Node n : s.getChordAndNoteSequence()) {
-//            n.accept(this, writer);
-//
-//            if (n instanceof Note nt) {
-//                writer.print(nt.getBeat());
-//            } else if (n instanceof Chord c) {
-//                String firstNote = c.getNotes().get(0);
-//                String beat = noteSymbolTable.get(firstNote).getBeat();
-//                writer.print(beat);
-//            }
-//        }
+        for (Node n : s.getChordAndNoteSequence()) {
+            n.accept(this, writer);
+
+            if (n instanceof Note nt) {
+                writer.print(nt.getBeat());
+            } else if (n instanceof Chord c) {
+                String firstNoteName = c.getNotes().get(0).getName();
+                Note firstNote = (Note) symbolTable.get(firstNoteName);
+                String beat = firstNote.getBeat();
+                writer.print(beat);
+            }
+        }
 
         return null;
     }
@@ -154,10 +156,11 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     public Void visit(Chord c, PrintWriter writer) {
         writer.print("<");
 
-//        for (String n : c.getNotes()) {
-//            Note note = noteSymbolTable.get(n);
-//            note.accept(this, writer);
-//        }
+        for (Name noteName : c.getNotes()) {
+            String n = noteName.getName();
+            Note note = (Note) symbolTable.get(n);
+            note.accept(this, writer);
+        }
 
         writer.print(">");
         return null;
