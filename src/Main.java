@@ -2,6 +2,7 @@
 
 import ast.MusicSheet;
 // import ast.evaluator.Evaluator;
+import ast.Program;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -26,7 +27,7 @@ public class Main {
         MusicLanguageParser parser = new MusicLanguageParser(tokens);
         ParseTreeToAST visitor = new ParseTreeToAST();
 
-        MusicSheet parsedSheet = visitor.visitMusicsheet(parser.musicsheet());
+        Program program = visitor.visitProgram(parser.program());
 
         System.out.println("Parsing to AST complete");
 

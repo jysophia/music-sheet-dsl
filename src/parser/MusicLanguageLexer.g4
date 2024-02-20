@@ -8,7 +8,7 @@ REPEAT: 'Repeat' WS* -> mode(REPEAT_MODE);
 REPEAT_DISPLAY: 'Display this';
 
 WS : [\t ]+ -> channel(HIDDEN);
-STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
+STMT_NEWLINE: [\r\n]+ -> channel(HIDDEN);
 COMMA: ',' -> channel(HIDDEN);
 CLOSE_BRACE: '}';
 
@@ -46,11 +46,11 @@ mode MUT_KEY_MODE;
 MUT_KEY_NUMBER: ('0.5' | '1.0' | '1' | '1.5' | '2.0' | '2' | '2.5' | '3.0' | '3' | '3.5' |
                 '4.0' | '4' | '4.5' | '5.0' | '5' | '5.5' | '6.0' | '6' | '6.5' | '7.0' |
                 '7' | '7.5' | '8.0' | '8') -> mode(DEFAULT_MODE);
-MUT_KEY_WS: [\t ] -> channel(HIDDEN);
+MUT_KEY_WS: [\t ]+ -> channel(HIDDEN);
 
 mode MUT_BEAT_MODE;
 MUT_BEAT_NUMBER: ('1' | '2' | '3') -> mode(DEFAULT_MODE);
-MUT_BEAT_WS: [\t ] -> channel(HIDDEN);
+MUT_BEAT_WS: [\t ]+ -> channel(HIDDEN);
 
 mode NOTE_MODE;
 KEY: ('C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B') WS*;
