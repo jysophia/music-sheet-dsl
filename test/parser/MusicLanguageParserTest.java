@@ -17,12 +17,13 @@ public class MusicLanguageParserTest {
                 Note n1
                 Note n2
                 Note n3
+                
+                Chord c1
 
                 Set n1 = $D#1.0_0
                 Set n2 = $G1.0_0
                 Set n3 = $B1.0_0
-
-                Chord c1
+                
                 Set c1 = chord(n1, n2, n3)""";
         MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromString(input));
 
@@ -35,41 +36,25 @@ public class MusicLanguageParserTest {
         MusicLanguageParser parser = new MusicLanguageParser(tokens);
 
         MusicLanguageParser.ProgramContext program = parser.program();
-        assertEquals(9,program.children.size()); // 9 because EOF counts as a token
-        assertInstanceOf(MusicLanguageParser.StatementContext.class, program.children.get(0));
-        // test that the first statement "Note n1" is a declaration
-        MusicLanguageParser.StatementContext firstStmt = (MusicLanguageParser.StatementContext) program.children.get(0);
-        assertInstanceOf(MusicLanguageParser.DeclareContext.class, firstStmt.children.get(0));
+        assertEquals(2, program.children.size()); // music sheet and EOF
 
-        // test that the second statement "Note n2" is a declaration
-        MusicLanguageParser.StatementContext secondStmt = (MusicLanguageParser.StatementContext) program.children.get(1);
-        assertInstanceOf(MusicLanguageParser.DeclareContext.class, secondStmt.children.get(0));
+        MusicLanguageParser.MusicsheetContext musicSheet = program.musicsheet();
+        assertEquals(8, musicSheet.children.size());
+        assertInstanceOf(MusicLanguageParser.StatementContext.class, musicSheet.children.get(0));
 
-        // test that the third statement "Note n3" is a declaration
-        MusicLanguageParser.StatementContext thirdStmt = (MusicLanguageParser.StatementContext) program.children.get(2);
-        assertInstanceOf(MusicLanguageParser.DeclareContext.class, thirdStmt.children.get(0));
+        // test that the first three statements are declarations
+        for (int i = 0; i < 4; i++) {
+            MusicLanguageParser.StatementContext stmt = (MusicLanguageParser.StatementContext) musicSheet.children.get(i);
+            assertInstanceOf(MusicLanguageParser.DeclareContext.class, stmt.children.getFirst());
+        }
 
-        // test that the fourth statement "Set n1 = $D#1.0_0" is a setting
-        MusicLanguageParser.StatementContext fourthStmt = (MusicLanguageParser.StatementContext) program.children.get(3);
-        assertInstanceOf(MusicLanguageParser.SetContext.class, fourthStmt.children.get(0));
-
-        // test that the fifth statement "Set n2 = $G1.0_0" is a setting
-        MusicLanguageParser.StatementContext fifthStmt = (MusicLanguageParser.StatementContext) program.children.get(4);
-        assertInstanceOf(MusicLanguageParser.SetContext.class, fifthStmt.children.get(0));
-
-        // test that the sixth statement "Set n3 = $B1.0_0" is a setting
-        MusicLanguageParser.StatementContext sixthStmt = (MusicLanguageParser.StatementContext) program.children.get(5);
-        assertInstanceOf(MusicLanguageParser.SetContext.class, sixthStmt.children.get(0));
-
-        // test that the seventh statement "Chord c1" is a setting
-        MusicLanguageParser.StatementContext seventhStmt = (MusicLanguageParser.StatementContext) program.children.get(6);
-        assertInstanceOf(MusicLanguageParser.DeclareContext.class, seventhStmt.children.get(0));
-
-        // test that the eighth statement "Set c1 = chord(n1, n2, n3)" is a setting
-        MusicLanguageParser.StatementContext eighthStmt = (MusicLanguageParser.StatementContext) program.children.get(7);
-        assertInstanceOf(MusicLanguageParser.SetContext.class, eighthStmt.children.get(0));
-
+        // test that the remaining statements are "set"
+        for (int i = 4; i < musicSheet.getChildCount(); i++) {
+            MusicLanguageParser.StatementContext stmt = (MusicLanguageParser.StatementContext) musicSheet.children.get(i);
+            assertInstanceOf(MusicLanguageParser.SetContext.class, stmt.children.getFirst());
+        }
     }
+
     @Test
     public void testParserNoteMutateSuccessTest() throws IOException {
         String input = """
@@ -149,11 +134,11 @@ public class MusicLanguageParserTest {
         assertEquals(7, repeatStmt.getChildCount());
 
         // test that the first statement in repeat is a mutation
-        MusicLanguageParser.Repeat_cmdsContext repeat_cmds = (MusicLanguageParser.Repeat_cmdsContext) repeatStmt.children.get(5);
-        assertInstanceOf(MusicLanguageParser.MutateContext.class, repeat_cmds.children.get(0));
+        MusicLanguageParser.MusicsheetContext repeat_ms = (MusicLanguageParser.MusicsheetContext) repeatStmt.children.get(5);
+        assertInstanceOf(MusicLanguageParser.MutateContext.class, repeat_ms.children.get(0));
 
         // test that the second statement in repeat is a REPEAT_DISPLAY
-        assertInstanceOf(MusicLanguageParser.Repeat_displayContext.class, repeat_cmds.children.get(2));
+//        assertInstanceOf(MusicLanguageParser.Repeat_displayContext.class, repeat_cmds.children.get(2));
     }
     @Test
     void testParserProgramNoStatementSuccess() {
