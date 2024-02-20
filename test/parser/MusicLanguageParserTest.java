@@ -145,9 +145,6 @@ public class MusicLanguageParserTest {
         // test that the first statement in repeat is a mutation
         MusicLanguageParser.MusicsheetContext mutationStatement = (MusicLanguageParser.MusicsheetContext) repeatStmt.children.get(5);
         assertInstanceOf(MusicLanguageParser.MutateContext.class, mutationStatement.children.getFirst().getChild(0));
-
-        // test that the second statement in repeat is a REPEAT_DISPLAY
-//        assertInstanceOf(MusicLanguageParser.RepeatContext.class, repeat_ms.children.get(2));
     }
     @Test
     void testParserProgramNoStatementSuccess() {
