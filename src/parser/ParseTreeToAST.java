@@ -55,7 +55,11 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
 
   @Override
   public MutateStmt visitMutate(MusicLanguageParser.MutateContext ctx) {
-    return new MutateStmt((Name) ctx.varname().accept(this), (Mutation) ctx.mutation_type().accept(this));
+    Name name = (Name) ctx.varname().accept(this);
+    Mutation mutation = (Mutation) ctx.mutation_type().accept(this);
+    String type = ctx.MUTATE().getText().trim();
+
+    return new MutateStmt(name, mutation, type);
   }
 
   @Override
