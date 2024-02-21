@@ -3,6 +3,7 @@
 import ast.MusicSheet;
 // import ast.evaluator.Evaluator;
 import ast.Program;
+import ast.checkers.VariableChecker;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -18,6 +19,9 @@ public class Main {
         // Code adapted from TinyVars-main in-class example.
         MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/chords.txt"));
 
+        // Uncomment to test invalid file
+        // MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/staticcheck.txt"));
+
         for (Token token : lexer.getAllTokens()) {
             System.out.println(token);
         }
@@ -28,6 +32,13 @@ public class Main {
         ParseTreeToAST visitor = new ParseTreeToAST();
 
         Program program = visitor.visitProgram(parser.program());
+
+        // static checking
+        VariableChecker v = new VariableChecker();
+        String errors = v.checkProgram(program);
+        if (!errors.isEmpty()) {
+            System.out.println(errors);
+        }
 
         System.out.println("Parsing to AST complete");
 
