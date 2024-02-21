@@ -1,0 +1,3 @@
+Note n1
+Note n2
+Set n3 = $B1.0_0

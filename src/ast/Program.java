@@ -7,6 +7,10 @@ public class Program extends Node {
     this.musicSheet = musicSheet;
   }
 
+  public MusicSheet getMusicSheet() {
+    return musicSheet;
+  }
+
   @Override
   public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
     return v.visit(this, t);
