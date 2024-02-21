@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class VariableChecker implements MusicSheetVisitor<Set<String>, String> {
+    //Adapted from the lecture for static checking
 
     public String checkProgram(Program p) {
         Set<String> vars = new HashSet<>();
