@@ -37,7 +37,12 @@ public class VariableChecker implements MusicSheetVisitor<Set<String>, String> {
 
     @Override
     public String visit(Declare d, Set<String> strings) {
-        strings.add(d.getName().getName());
+        String name = d.getName().getName();
+        if (!strings.contains(name)) {
+            strings.add(name);
+        } else {
+            return "Error: variable " + name + " already declared.\n";
+        }
         return "";
     }
 
@@ -60,13 +65,17 @@ public class VariableChecker implements MusicSheetVisitor<Set<String>, String> {
     public String visit(ast.Set s, Set<String> strings) {
         String name = s.getName().getName();
         if(!strings.contains(name)) {
-            return "Error: variable " + name + "assigned but not declared.\n";
+            return "Error: variable " + name + " assigned but not declared.\n";
         }
         return "";
     }
 
     @Override
     public String visit(MutateStmt m, Set<String> strings) {
+        String name = m.getVarname().getName();
+        if(!strings.contains(name)) {
+            return "Error: variable " + name + " mutated but not declared.\n";
+        }
         return "";
     }
 

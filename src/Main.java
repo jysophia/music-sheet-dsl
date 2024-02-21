@@ -20,7 +20,7 @@ public class Main {
         MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/chords.txt"));
 
         // Uncomment to test invalid file
-        // MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/staticcheck.txt"));
+        //MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/staticcheck.txt"));
 
         for (Token token : lexer.getAllTokens()) {
             System.out.println(token);
