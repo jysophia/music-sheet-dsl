@@ -2,19 +2,45 @@ Note n1
 Note n2
 Note n3
 Note n4
+Note n5
 
-Set n1 = $E0.25_1
+Set n1 = $E0.5_1
 Set n2 = $F0.25_1
-Set n3 = $G0.25_1
+Set n3 = $G0.5_1
 Set n4 = $A0.25_1
+Set n5 = $B0.5_1
+
+Chord c1
+Set c1 = chord(n1, n3, n5)
+
 
 Sequence s1
+Set s1 = sequence(c1)
+
+Repeat (4) {
+    Display s1
+}
+
+Sub n1.beat 0.25
+Sub n3.beat 0.25
+Sub n5.beat 0.25
+
 Set s1 = sequence(n1, n2, n3, n4)
 
-Repeat (20) {
+Repeat (4) {
     Display s1
     Add n1.key 1
     Add n2.key 1
     Add n3.key 1
     Add n4.key 1
+}
+
+Set s1 = sequence(n4, n3, n2, n1)
+
+Repeat (4) {
+    Display s1
+    Sub n1.key 1
+    Sub n2.key 1
+    Sub n3.key 1
+    Sub n4.key 1
 }
