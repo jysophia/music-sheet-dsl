@@ -49,7 +49,7 @@ MUT_KEY_NUMBER: ('0.5' | '1.0' | '1' | '1.5' | '2.0' | '2' | '2.5' | '3.0' | '3'
 MUT_KEY_WS: [\t ]+ -> channel(HIDDEN);
 
 mode MUT_BEAT_MODE;
-MUT_BEAT_NUMBER: ('1' | '2' | '3') -> mode(DEFAULT_MODE);
+MUT_BEAT_NUMBER: ('0' | '0.0' | '0.25' | '0.5' | '0.75' | '1' | '1.0') -> mode(DEFAULT_MODE);
 MUT_BEAT_WS: [\t ]+ -> channel(HIDDEN);
 
 mode NOTE_MODE;
