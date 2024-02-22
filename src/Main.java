@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 public class Main {
     public static void main(String[] args) throws IOException {
         // Code adapted from TinyVars-main in-class example.
-        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/chords.txt"));
+        MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/decrSeq.txt"));
 
         // Uncomment to test invalid file
         //MusicLanguageLexer lexer = new MusicLanguageLexer(CharStreams.fromFileName("TestMusicLanguage/staticcheck.txt"));
