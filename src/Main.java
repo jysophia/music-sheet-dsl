@@ -3,6 +3,7 @@
 import ast.MusicSheet;
 // import ast.evaluator.Evaluator;
 import ast.Program;
+import ast.evaluator.Evaluator;
 import ast.checkers.VariableChecker;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -12,7 +13,10 @@ import parser.MusicLanguageLexer;
 import parser.MusicLanguageParser;
 import parser.ParseTreeToAST;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -42,38 +46,12 @@ public class Main {
 
         System.out.println("Parsing to AST complete");
 
-        /*
-        if (parser.getNumberOfSyntaxErrors() > 0) {
-            System.out.println("syntax errors");
-        } else {
-            VisitorInterpreter vinterp = new VisitorInterpreter();
-            MusicSheet parsedSheet = vinterp.visitMusicsheet(tree);
+        Evaluator e = new Evaluator();
+        PrintWriter out = new PrintWriter(new FileWriter("./score.ly"));
 
-            File newFile = new File("./score.ly");
+        program.accept(e, out);
 
-            try {
-                // creates file if one does not exist already.
-                Boolean fileCreated = newFile.createNewFile();
+        out.close();
 
-                if (fileCreated) {
-                    System.out.println("New file created");
-                } else {
-                    System.out.println("File already exists");
-                }
-            } catch (IOException e) {
-                // TODO: handle this exception
-                System.out.println("Something went wrong");
-                e.printStackTrace();;
-            }
-
-            Evaluator e = new Evaluator();
-            PrintWriter out = new PrintWriter(new FileWriter("./score.ly"));
-
-            parsedSheet.accept(e, out);
-
-            out.close();
-        }
-
-         */
     }
 }

@@ -28,4 +28,7 @@ Repeat (2) {
     }
 }
 
-Display c1
+Sequence s1
+Set s1 = sequence(c1, n4)
+
+Display s1

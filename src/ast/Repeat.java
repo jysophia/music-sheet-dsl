@@ -10,7 +10,7 @@ public class Repeat extends Statement {
   }
 
   public List<MusicSheet> getMusicSheets() {
-    return musicSheets;
+    return this.musicSheets;
   }
 
   @Override
