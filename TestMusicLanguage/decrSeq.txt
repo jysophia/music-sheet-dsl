@@ -11,14 +11,10 @@ Set n4 = $A0.25_1
 Sequence s1
 Set s1 = sequence(n1, n2, n3, n4)
 
-Repeat (100) {
-    Repeat (1) {
-        Display s1
-        Add n1.key 1
-        Add n2.key 1
-        Add n3.key 1
-        Add n4.key 1
-    }
+Repeat (20) {
+    Display s1
+    Add n1.key 1
+    Add n2.key 1
+    Add n3.key 1
+    Add n4.key 1
 }
-
-Display s1
