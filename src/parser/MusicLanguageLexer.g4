@@ -7,8 +7,8 @@ MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
 REPEAT: 'Repeat' WS* -> mode(REPEAT_MODE);
 REPEAT_DISPLAY: 'Display this';
 
-WS : [\t ]+ -> channel(HIDDEN);
-STMT_NEWLINE: [\r\n]+ -> channel(HIDDEN);
+WS : [\t ] -> channel(HIDDEN);
+STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
 COMMA: ',' -> channel(HIDDEN);
 CLOSE_BRACE: '}';
 
