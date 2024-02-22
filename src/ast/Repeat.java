@@ -9,6 +9,10 @@ public class Repeat extends Statement {
     this.musicSheets = musicSheets;
   }
 
+  public List<MusicSheet> getMusicSheets() {
+    return this.musicSheets;
+  }
+
   @Override
   public <T, U> U accept(MusicSheetVisitor<T, U> v, T t) {
     return v.visit(this, t);

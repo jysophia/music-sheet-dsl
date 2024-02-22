@@ -1,19 +1,28 @@
 package ast.evaluator;
 
 import ast.*;
+import ast.Set;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
     // Direct mapping of String to Node since we dont support variable pointing
     public Map<String, Node> symbolTable = new HashMap<>();
 
-    public Evaluator() {
+    private final Map<Integer, String> noteIndexMap;
 
+    public Evaluator() {
+        noteIndexMap = new HashMap<>() {{
+            put(0, "a");
+            put(1, "b");
+            put(2, "c");
+            put(3, "d");
+            put(4, "e");
+            put(5, "f");
+            put(6, "g");
+        }};
     }
 
     public Void visit(Declare d, PrintWriter writer) {
@@ -42,13 +51,13 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
             NoteProperty np = (NoteProperty) o;
             String prop = np.getProperty();
 
-            if (p.getProperty() == "SET_KEY") {
+            if (p.getProperty().equals("SET_KEY")) {
                 note.setKey(prop);
-            } else if (p.getProperty() == "SET_BEAT") {
+            } else if (p.getProperty().equals("SET_BEAT")) {
                 note.setBeat(prop);
-            } else if (p.getProperty() == "SET_PITCH") {
+            } else if (p.getProperty().equals("SET_PITCH")) {
                 note.setPitch(prop);
-            } else if (p.getProperty() == "SET_OCTAVE") {
+            } else if (p.getProperty().equals("SET_OCTAVE")) {
                 note.setOctave(prop);
             }
 
@@ -84,23 +93,52 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
 
         // Only Notes can be mutated
         if (mut instanceof MutateKey){
-            String key = ((MutateKey) mut).getNewkey();
+            double mutKey = Double.parseDouble(((MutateKey) mut).getNewkey());
+            char noteKey = note.getKey().charAt(0);
+            double noteIndex = (double) Character.toLowerCase(noteKey) - 97.0;
 
-            if (type == "add") {
+            String pitch = note.getPitch();
 
-            } else if (type == "sub") {
+            if (pitch != null) {
+                if (pitch.equals("b")) {
+                    noteIndex -= 0.5;
+                } else if (pitch.equals("#")) {
+                    noteIndex += 0.5;
+                }
+            }
+
+            if (type.equals("Add")) {
+
+                noteIndex = (noteIndex + mutKey);
+
+                if (noteIndex % 1.0 == 0.5) {
+                    note.setPitch("#");
+                    noteIndex -= 0.5;
+                }
+
+            } else if (type.equals("Sub")) {
+
+                noteIndex = (noteIndex - mutKey);
+
+                if (noteIndex % 1.0 == 0.5) {
+                    note.setPitch("b");
+                    noteIndex += 0.5;
+                }
 
             } else {
                 System.out.println("Unsupported modification");
             }
 
+            noteIndex = noteIndex % 7.0;
+            note.setKey(this.noteIndexMap.get((int) noteIndex));
+
         } else if (mut instanceof MutateBeat) {
             double mutBeat = ((MutateBeat) mut).getNewbeat();
             double noteBeat = Double.parseDouble(note.getBeat());
 
-            if (type == "add") {
+            if (type.equals("Add")) {
                 noteBeat = noteBeat + mutBeat;
-            } else if (type == "sub") {
+            } else if (type.equals("Sub")) {
                 noteBeat = noteBeat - mutBeat;
             } else {
                 System.out.println("Unsupported modification");
@@ -128,26 +166,30 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(Program p, PrintWriter writer) {
+        writer.println("{\n    \\clef treble\n");
+
         MusicSheet m = p.getMusicSheet();
         m.accept(this, writer);
+
+        writer.println("\n}");
 
         return null;
     }
 
     @Override
     public Void visit(Repeat r, PrintWriter printWriter) {
-        System.out.println("Repeat");
+
+        for (MusicSheet m: r.getMusicSheets()) {
+            m.accept(this, printWriter);
+        }
         return null;
     }
 
     public Void visit(MusicSheet m, PrintWriter writer) {
-        writer.println("{\n    \\clef treble\n");
 
         for (Statement st : m.getStatements()) {
             st.accept(this, writer);
         }
-
-        writer.println("\n}");
 
         return null;
     }
