@@ -13,10 +13,7 @@ import parser.MusicLanguageLexer;
 import parser.MusicLanguageParser;
 import parser.ParseTreeToAST;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -52,6 +49,32 @@ public class Main {
         program.accept(e, out);
 
         out.close();
+
+        // with assistance from AI tools
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder("lilypond", "score.ly");
+            processBuilder.redirectErrorStream(true);
+            processBuilder.directory(new File(System.getProperty("user.dir")));
+            Process process = processBuilder.start();
+
+            // Read the output (combined output and error streams)
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("LilyPond command executed successfully");
+            } else {
+                System.err.println("Error executing LilyPond command. Exit code: " + exitCode);
+            }
+            System.out.println(exitCode);
+        } catch (IOException | InterruptedException error) {
+            error.printStackTrace();
+        }
 
     }
 }
