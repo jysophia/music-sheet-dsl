@@ -189,7 +189,8 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     }
 
     public Void visit(Program p, PrintWriter writer) {
-        writer.println("{\n    \\version \"2.24.3\"\n    \\clef treble\n");
+        writer.println("\\version \"2.24.3\"\n");
+        writer.println("{\n \\clef treble\n");
 
         MusicSheet m = p.getMusicSheet();
         m.accept(this, writer);
