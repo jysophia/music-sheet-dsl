@@ -21,7 +21,7 @@ CLOSE_PAREN: ')' WS*;
 mode NAME_MODE;
 NAME: ~[[|\]\r\n,.=\t ()]+;
 NAME_WS: [\t ] -> channel(HIDDEN);
-NAME_RETURN: [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DECLARATION/DISPLAY
+NAME_RETURN: [\r\n]+ -> mode(DEFAULT_MODE); // Should only happen on DISPLAY
 
 // For non DECLARATION/DISPLAY, we want to move it out of NAME_MODE.
 EQUALS: '=' -> mode(SET_VAR_MODE);
