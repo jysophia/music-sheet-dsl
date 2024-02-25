@@ -261,7 +261,7 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
     public Void visit(Note n, PrintWriter writer) {
         String pitch = n.getPitch();
         String key = n.getKey().toLowerCase();
-        int octave = Integer.parseInt(n.getOctave().substring(1,2));
+        int octave = Integer.parseInt(n.getOctave().substring(1,2)) + 1;
 
         String mod = "";
         if (pitch != null) {
