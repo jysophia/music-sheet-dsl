@@ -10,7 +10,7 @@ public interface MusicSheetVisitor<T, U> {
 
     U visit(Chord c, T t);
 
-    U visit(Declare d, T t);
+    U visit(DeclareAndSet d, T t);
 
     U visit(Display d, T t);
 
@@ -18,7 +18,7 @@ public interface MusicSheetVisitor<T, U> {
 
     U visit(NoteProperty n, T t);
 
-    U visit(Set s, T t);
+    U visit(SetProperty s, T t);
 
     U visit(MutateStmt m, T t);
 

@@ -1,23 +1,14 @@
-Note n1
-Note n2
-Note n3
-Note n4
-Note n5
+Note n1 = $E0.5_0
+Note n2 = $F0.25_0
+Note n3 = $G0.5_0
+Note n4 = $A0.25_0
+Note n5 = $B0.5_0
 
-Set n1 = $E0.5_1
-Set n2 = $F0.25_1
-Set n3 = $G0.5_1
-Set n4 = $A0.25_1
-Set n5 = $B0.5_1
+Chord c1 = chord(n1, n3, n5)
 
-Chord c1
-Set c1 = chord(n1, n3, n5)
+Sequence s1 = sequence(c1, c1)
 
-
-Sequence s1
-Set s1 = sequence(c1)
-
-Repeat (4) {
+Repeat (2) {
     Display s1
 }
 
