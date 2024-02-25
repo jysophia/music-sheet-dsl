@@ -5,7 +5,6 @@ SET: 'Set' WS* -> mode(NAME_MODE);
 DISPLAY: 'Display' WS* -> mode(NAME_MODE);
 MUTATE: ('Add' | 'Sub') WS* -> mode(NAME_MODE);
 REPEAT: 'Repeat' WS* -> mode(REPEAT_MODE);
-REPEAT_DISPLAY: 'Display this';
 
 WS : [\t ] -> channel(HIDDEN);
 STMT_NEWLINE: [\r\n] -> channel(HIDDEN);
