@@ -1,7 +1,7 @@
 package ast.evaluator;
 
 import ast.*;
-import ast.Set;
+import ast.SetProperty;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -37,15 +37,15 @@ public class Evaluator implements MusicSheetVisitor<PrintWriter, Void> {
         }};
     }
 
-    public Void visit(Declare d, PrintWriter writer) {
+    public Void visit(DeclareAndSet d, PrintWriter writer) {
         Name name = d.getName();
-
-        symbolTable.put(name.getName(), null);
+        Operation o = d.getOperation();
+        symbolTable.put(name.getName(), o);
 
         return null;
     }
 
-    public Void visit(Set s, PrintWriter printWriter) {
+    public Void visit(SetProperty s, PrintWriter printWriter) {
         Property p = s.getProperty();
         Name n = s.getName();
         Operation o = s.getOperation();

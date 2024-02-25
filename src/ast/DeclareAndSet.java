@@ -1,26 +1,23 @@
 package ast;
 
-import ast.Statement;
-
-public class Set extends Statement {
+public class DeclareAndSet extends Statement {
+  private final String declType;
   private final Name name;
-  private final Property property;
   private final Operation operation;
 
-  public Set(Name name, Property property, Operation operation) {
+  public DeclareAndSet(String declType, Name name, Operation operation) {
+    this.declType = declType;
     this.name = name;
-    this.property = property;
     this.operation = operation;
+  }
+
+  public String getDeclType() {
+    return declType;
   }
 
   public Name getName() {
     return name;
   }
-
-  public Property getProperty() {
-    return property;
-  }
-
   public Operation getOperation() {
     return operation;
   }

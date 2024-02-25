@@ -36,7 +36,7 @@ public class VariableChecker implements MusicSheetVisitor<Set<String>, String> {
     }
 
     @Override
-    public String visit(Declare d, Set<String> strings) {
+    public String visit(DeclareAndSet d, Set<String> strings) {
         String name = d.getName().getName();
         if (!strings.contains(name)) {
             strings.add(name);
@@ -62,7 +62,7 @@ public class VariableChecker implements MusicSheetVisitor<Set<String>, String> {
     }
 
     @Override
-    public String visit(ast.Set s, Set<String> strings) {
+    public String visit(SetProperty s, Set<String> strings) {
         String name = s.getName().getName();
         if(!strings.contains(name)) {
             return "Error: variable " + name + " assigned but not declared.\n";

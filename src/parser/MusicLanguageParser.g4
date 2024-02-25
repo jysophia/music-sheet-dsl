@@ -3,9 +3,9 @@ options { tokenVocab=MusicLanguageLexer; }
 
 program: musicsheet EOF;
 musicsheet: statement*;
-statement: declare | set | display | mutate | repeat STMT_NEWLINE?;
-declare: DECLARATION varname NAME_RETURN;
-set: SET varname ((DOT property) | EQUALS) operation;
+statement: declareAndSet | setProperty | display | mutate | repeat STMT_NEWLINE?;
+declareAndSet: DECLARATION varname EQUALS operation;
+setProperty: SET varname ((DOT property) | EQUALS) operation;
 operation: note | chord | sequence | note_property;
 display: DISPLAY varname NAME_RETURN;
 

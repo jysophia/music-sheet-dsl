@@ -1,11 +1,7 @@
 package parser;
 
 import ast.*;
-import org.antlr.v4.runtime.Vocabulary;
-import org.antlr.v4.runtime.VocabularyImpl;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import parser.MusicLanguageParser;
-import parser.MusicLanguageParserBaseVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +28,12 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
   }
 
   @Override
-  public Declare visitDeclare(MusicLanguageParser.DeclareContext ctx) {
-    return new Declare(ctx.DECLARATION().getText(), (Name) ctx.varname().accept(this));
+  public DeclareAndSet visitDeclareAndSet(MusicLanguageParser.DeclareAndSetContext ctx) {
+    return new DeclareAndSet(ctx.DECLARATION().getText(), (Name) ctx.varname().accept(this), (Operation) ctx.operation().accept(this));
   }
 
   @Override
-  public Set visitSet(MusicLanguageParser.SetContext ctx) {
+  public SetProperty visitSetProperty(MusicLanguageParser.SetPropertyContext ctx) {
     Name name = (Name) ctx.varname().accept(this);
     Property p = null;
     if (ctx.property() != null) {
@@ -45,7 +41,7 @@ public class ParseTreeToAST extends MusicLanguageParserBaseVisitor<Node> {
     }
     Operation op = (Operation) ctx.operation().accept(this);
 
-    return new Set(name, p, op);
+    return new SetProperty(name, p, op);
   }
 
   @Override
